@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FilmeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +16,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+|
+| Base URL: /
+|
+*/
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('public::welcome');
 });
 
-Auth::routes();
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+|
+| Base URL: /admin
+|
+*/
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/filmes', [FilmeController::class, 'index'])->name('admin.filmes.index');
+
+Auth::routes();
