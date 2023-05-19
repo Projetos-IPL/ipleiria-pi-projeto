@@ -39,6 +39,6 @@ Route::get('/', function () {
 */
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/filmes', [FilmeController::class, 'index'])->name('admin.filmes.index');
+Route::get('/filmes', [FilmeController::class, 'index'])->name('admin.filmes.index')->middleware('auth');
 
 Auth::routes();
