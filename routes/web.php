@@ -39,6 +39,10 @@ Route::get('/', function () {
 */
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 Route::get('/filmes', [FilmeController::class, 'index'])->name('admin.filmes.index')->middleware('auth');
+Route::get('/filmes/{filme}/alterar', [FilmeController::class, 'edit'])->name('admin.filmes.edit')->middleware('auth');
+Route::put('/filmes/{filme}', [FilmeController::class, 'update'])->name('admin.filmes.update')->middleware('auth');
+Route::get('/filmes/{filme}', [FilmeController::class, 'show'])->name('admin.filmes.show')->middleware('auth');
 
 Auth::routes();

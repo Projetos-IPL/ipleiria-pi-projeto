@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class FilmeController extends Controller
 {
-    private $resultsPerPage = 20;
+    private $resultsPerPage = 10;
 
     /**
      * Display a listing of the resource.
@@ -67,25 +67,62 @@ class FilmeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Filme $filme)
+    public function show(int $id)
     {
-        //
+        $filme = Filme::findOrFail($id);
+
+        return view('admin::filmes.show', compact('filme'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Filme $filme)
+    public function edit(int $id)
     {
-        //
+        $filme = Filme::findOrFail($id);
+        $generos = Genero::all();
+
+        return view('admin::filmes.edit', compact('filme', 'generos'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Filme $filme)
+    public function update(Request $request, int $id)
     {
-        //
+        $filme = Filme::findOrFail($id);
+
+        // validate fields
+        $validation = $request->validate([
+            'titulo' => 'required',
+            'genero_code' => 'required',
+            'ano' => 'required|numeric|digits:4',
+            'trailer_url' => 'url',
+        ]);
+
+        if ($validation) {
+            $filme->titulo = $request->titulo;
+            $filme->genero_code = $request->genero_code;
+            $filme->ano = $request->ano;
+            $filme->sumario = $request->sumario;
+            $filme->trailer_url = $request->trailer_url;
+            $filme->custom = $request->custom;
+            $filme->save();
+        } else {
+            return redirect()->back()->withErrors($validation);
+        }
+
+        if ($request->hasFile('cartaz_url')) {
+            $cartazUrl = $request->file('cartaz_url');
+
+            $cartazUrlName = $filme->id . '_' . time() . '.' . $cartazUrl->getClientOriginalExtension();
+
+            $cartazUrl->move(storage_path('app/public/cartazes'), $cartazUrlName);
+            $filme->cartaz_url = $cartazUrlName;
+            $filme->save();
+        }
+
+        return redirect()->route('admin.filmes.index')->with('success', 'Filme alterado com sucesso!');
     }
 
     /**

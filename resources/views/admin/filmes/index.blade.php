@@ -6,16 +6,22 @@
         <div class="col-10">
             <div class="mb-4">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-10">
                         <h2><i class="fa-solid fa-video me-3"></i>Filmes</h2>
                     </div>
-                    <div class="col d-flex justify-content-end">
-                        <a href="#" class="btn btn-primary">
-                            <i class="fa-solid fa-plus"></i> Novo Filme
+                    <div class="col-2">
+                        <a href="#" class="btn btn-dark d-block">
+                            <i class="fa-solid fa-plus me-2"></i> Novo Filme
                         </a>
                     </div>
                 </div>
             </div>
+
+            @if (session('success'))
+            <div class="alert alert-success mb-4">
+                {{ session('success') }}
+            </div>
+            @endif
 
             <div class="card mb-4">
                 <div class="card-header">Filtrar e Pesquisar</div>
@@ -33,7 +39,7 @@
                                     <option value="">Todos</option>
 
                                     @foreach ($generos as $genero)
-                                    <option {{ $filterByGenero===$genero->code ? 'selected' : '' }}
+                                    <option {{ $filterByGenero==$genero->code ? 'selected' : '' }}
                                         value="{{ $genero->code }}">{{ $genero->nome }}</option>
                                     @endforeach
                                 </select>
@@ -44,7 +50,8 @@
                                     <option value="">Todos</option>
 
                                     @foreach ($anos as $ano)
-                                    <option value="{{ $ano->ano }}">{{ $ano->ano }}</option>
+                                    <option {{ $filterByAno==$ano->ano ? 'selected' : '' }} value="{{ $ano->ano }}">{{
+                                        $ano->ano }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -83,17 +90,19 @@
                                 <th>
                                     <a href="{{ '/storage/cartazes/' . $filme->cartaz_url }}" target="_blank">
                                         <img src="{{ '/storage/cartazes/' . $filme->cartaz_url }}" alt=""
-                                            style="max-width: 100px">
+                                            class="img-fluid" style="max-width: 100px">
                                     </a>
                                 </th>
                                 <td>{{ $filme->titulo }}</td>
                                 <td>{{ $filme->genero->nome }}</td>
                                 <td>{{ $filme->ano }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-success">
+                                    <a href="{{ route('admin.filmes.show', $filme->id) }}"
+                                        class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
-                                    <a href="#" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('admin.filmes.edit', $filme->id) }}"
+                                        class="btn btn-sm btn-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <a href="#" class="btn btn-sm btn-danger">
