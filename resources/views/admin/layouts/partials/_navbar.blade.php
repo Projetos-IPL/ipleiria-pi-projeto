@@ -13,7 +13,12 @@
             @auth
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.filmes.index') }}">Filmes</a>
+                    <a class="nav-link {{ (str_contains(url()->current(), 'filme')) ? 'active' : '' }}"
+                        href="{{ route('admin.filmes.index') }}">Filmes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (str_contains(url()->current(), 'genero')) ? 'active' : '' }}"
+                        href="{{ route('admin.filmes.index') }}">Géneros</a>
                 </li>
             </ul>
             @endauth

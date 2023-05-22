@@ -10,7 +10,7 @@
                         <h2><i class="fa-solid fa-video me-3"></i>Filmes</h2>
                     </div>
                     <div class="col-2">
-                        <a href="#" class="btn btn-dark d-block">
+                        <a href="{{ route('admin.filmes.create') }}" class="btn btn-dark d-block">
                             <i class="fa-solid fa-plus me-2"></i> Novo Filme
                         </a>
                     </div>
@@ -88,9 +88,9 @@
                             <tr>
                                 <th scope="row">{{ $filme->id }}</th>
                                 <th>
-                                    <a href="{{ '/storage/cartazes/' . $filme->cartaz_url }}" target="_blank">
-                                        <img src="{{ '/storage/cartazes/' . $filme->cartaz_url }}" alt=""
-                                            class="img-fluid" style="max-width: 100px">
+                                    <a href="{{ $filme->getCartazPath() }}" target="_blank">
+                                        <img src="{{ $filme->getCartazPath() }}" alt="" class="img-fluid"
+                                            style="max-width: 100px">
                                     </a>
                                 </th>
                                 <td>{{ $filme->titulo }}</td>
@@ -105,9 +105,14 @@
                                         class="btn btn-sm btn-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                    <a href="#" class="btn btn-sm btn-danger">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
+                                    <form action="{{ route('admin.filmes.destroy', $filme->id) }}" method="post"
+                                        class="d-inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

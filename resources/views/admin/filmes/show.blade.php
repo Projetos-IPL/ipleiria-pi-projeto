@@ -63,8 +63,8 @@
                         </div>
 
                         <div class="col-4">
-                            <a href="{{ '/storage/cartazes/' . $filme->cartaz_url }}" target="_blank">
-                                <img src="{{ '/storage/cartazes/' . $filme->cartaz_url }}" class="img-fluid">
+                            <a href="{{ $filme->getCartazPath() }}" target="_blank">
+                                <img src="{{ $filme->getCartazPath() }}" class="img-fluid">
                             </a>
                         </div>
                     </div>

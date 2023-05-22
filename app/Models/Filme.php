@@ -21,6 +21,15 @@ class Filme extends Model
         'custom'
     ];
 
+    public function getCartazPath()
+    {
+        if (!$this->cartaz_url) {
+            return '/img/cartaz_default.png';
+        }
+
+        return '/storage/cartazes/' . $this->cartaz_url;
+    }
+
     public function genero()
     {
         return $this->belongsTo(Genero::class, 'genero_code', 'code');
