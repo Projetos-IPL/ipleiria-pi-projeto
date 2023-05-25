@@ -4,19 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Genero extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $primaryKey = 'code';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $table = 'generos';
-
-    // TODO fix deleted_at column
+    public $timestamps = false;
 
     protected $fillable = [
         'code',
         'nome',
-        'deleted_at'
     ];
 
     public function filmes()

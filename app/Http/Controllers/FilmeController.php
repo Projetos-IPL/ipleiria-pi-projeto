@@ -17,12 +17,10 @@ class FilmeController extends Controller
     {
         $filmes = Filme::query();
 
-        // check if query parameters for filtering are empty
         $filterByGenero = $request->query('genero') ?? '';
         $filterByPesquisa = $request->query('pesquisa') ?? '';
         $filterByAno = $request->query('ano') ?? '';
 
-        // filter based on filter parameters
         if ($filterByGenero !== '') {
             $filmes->where('genero_code', $filterByGenero);
         }
@@ -38,7 +36,6 @@ class FilmeController extends Controller
 
         $filmes = $filmes->paginate($this->resultsPerPage);
 
-        // get all generos to show in filter
         $generos = Genero::all();
         $anos = Filme::select('ano')->distinct()->orderBy('ano', 'DESC')->get();
 
@@ -63,7 +60,6 @@ class FilmeController extends Controller
      */
     public function store(Request $request)
     {
-        // validate fields
         $validation = $request->validate([
             'titulo' => 'required',
             'genero_code' => 'required',
@@ -93,7 +89,7 @@ class FilmeController extends Controller
             $filme->save();
         }
 
-        return redirect()->route('admin.filmes.index')->with('success', 'Filme criado com sucesso!');
+        return redirect()->route('filmes.index')->with('success', 'Filme criado com sucesso!');
     }
 
     /**
@@ -102,8 +98,9 @@ class FilmeController extends Controller
     public function show(Request $request, int $id)
     {
         $filme = Filme::findOrFail($id);
+        $generos = Genero::all();
 
-        return view('admin::filmes.show', compact('filme'));
+        return view('admin::filmes.show', compact('filme', 'generos'));
     }
 
     /**
@@ -124,7 +121,6 @@ class FilmeController extends Controller
     {
         $filme = Filme::findOrFail($id);
 
-        // validate fields
         $validation = $request->validate([
             'titulo' => 'required',
             'genero_code' => 'required',
@@ -153,7 +149,7 @@ class FilmeController extends Controller
             $filme->save();
         }
 
-        return redirect()->route('admin.filmes.index')->with('success', 'Filme alterado com sucesso!');
+        return redirect()->route('filmes.index')->with('success', 'Filme alterado com sucesso!');
     }
 
     /**
@@ -164,6 +160,6 @@ class FilmeController extends Controller
         $filme = Filme::findOrFail($id);
         $filme->delete();
 
-        return redirect()->route('admin.filmes.index')->with('success', 'Filme eliminado com sucesso!');
+        return redirect()->route('filmes.index')->with('success', 'Filme eliminado com sucesso!');
     }
 }

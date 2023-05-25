@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SalaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\FilmeController;
+use App\Http\Controllers\GeneroController;
+use App\Http\Controllers\ConfiguracaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +30,7 @@ use App\Http\Controllers\FilmeController;
 */
 
 Route::get('/', function () {
-    return view('public::welcome');
+    return view('public::index');
 });
 
 /*
@@ -40,17 +44,14 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/filmes', [FilmeController::class, 'index'])->name('admin.filmes.index')->middleware('auth');
+Route::resource('generos', GeneroController::class)->middleware('auth');
+Route::resource('filmes', FilmeController::class)->middleware('auth');
+Route::resource('utilizadores', UserController::class)->middleware('auth');
+Route::resource('salas', SalaController::class)->middleware('auth');
 
-Route::get('/filmes/criar', [FilmeController::class, 'create'])->name('admin.filmes.create')->middleware('auth');
-Route::post('/filmes', [FilmeController::class, 'store'])->name('admin.filmes.store')->middleware('auth');
+Route::get('/configuracoes', [ConfiguracaoController::class, 'edit'])->name('configuracoes.edit')->middleware('auth');
+Route::put('/configuracoes', [ConfiguracaoController::class, 'update'])->name('configuracoes.update')->middleware('auth');
 
-Route::get('/filmes/{filme}/alterar', [FilmeController::class, 'edit'])->name('admin.filmes.edit')->middleware('auth');
-Route::put('/filmes/{filme}', [FilmeController::class, 'update'])->name('admin.filmes.update')->middleware('auth');
-
-Route::get('/filmes/{filme}', [FilmeController::class, 'show'])->name('admin.filmes.show')->middleware('auth');
-
-Route::delete('/filmes/{filme}', [FilmeController::class, 'destroy'])->name('admin.filmes.destroy')->middleware('auth');
 
 // auth routes
 Auth::routes();

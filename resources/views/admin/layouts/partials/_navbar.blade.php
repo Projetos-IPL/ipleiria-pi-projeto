@@ -14,11 +14,19 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link {{ (str_contains(url()->current(), 'filme')) ? 'active' : '' }}"
-                        href="{{ route('admin.filmes.index') }}">Filmes</a>
+                        href="{{ route('filmes.index') }}">Filmes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (str_contains(url()->current(), 'genero')) ? 'active' : '' }}"
-                        href="{{ route('admin.filmes.index') }}">Géneros</a>
+                        href="{{ route('generos.index') }}">Géneros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (str_contains(url()->current(), 'utilizadores')) ? 'active' : '' }}"
+                        href="{{ route('utilizadores.index') }}">Utilizadores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (str_contains(url()->current(), 'salas')) ? 'active' : '' }}"
+                        href="{{ route('salas.index') }}">Salas</a>
                 </li>
             </ul>
             @endauth
@@ -39,6 +47,11 @@
                 </li>
                 @endif
                 @else
+                <li class="nav-item">
+                    <a class="nav-link {{ (str_contains(url()->current(), 'configuracoes')) ? 'active' : '' }}"
+                        href="{{ route('configuracoes.edit') }}">Configurações</a>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -46,6 +59,8 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Perfil</a>
+                        <hr class="dropdown-divider">
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}

@@ -7,11 +7,11 @@
             <div class="mb-4">
                 <div class="row">
                     <div class="col-10">
-                        <h2><i class="fa-solid fa-video me-3"></i>Filmes</h2>
+                        <h2><i class="fa-solid fa-tag me-3"></i>Géneros</h2>
                     </div>
                     <div class="col-2">
-                        <a href="{{ route('filmes.create') }}" class="btn btn-dark d-block">
-                            <i class="fa-solid fa-plus me-2"></i> Novo Filme
+                        <a href="{{ route('generos.create') }}" class="btn btn-dark d-block">
+                            <i class="fa-solid fa-plus me-2"></i> Novo Género
                         </a>
                     </div>
                 </div>
@@ -28,39 +28,18 @@
                 <div class="card-body">
                     <form method="get">
                         <div class="row align-items-end">
-                            <div class="col-md-4">
+                            <div class="col-md-9">
                                 <label class="form-label" for="pesquisa">Pesquisar</label>
                                 <input class="form-control" type="text" name="pesquisa" id="pesquisa"
                                     value="{{ $filterByPesquisa }}">
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label" for="genero">Género</label>
-                                <select class="form-select" id="genero" name="genero">
-                                    <option value="">Todos</option>
 
-                                    @foreach ($generos as $genero)
-                                    <option {{ $filterByGenero==$genero->code ? 'selected' : '' }}
-                                        value="{{ $genero->code }}">{{ $genero->nome }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label" for="ano">Ano</label>
-                                <select class="form-select" id="ano" name="ano">
-                                    <option value="">Todos</option>
-
-                                    @foreach ($anos as $ano)
-                                    <option {{ $filterByAno==$ano->ano ? 'selected' : '' }} value="{{ $ano->ano }}">{{
-                                        $ano->ano }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="col-md-3 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary me-2">
                                     <i class="fa-solid fa-magnifying-glass me-1"></i> Pesquisar
                                 </button>
 
-                                <a href="{{ route('filmes.index') }}" class="btn btn-secondary">
+                                <a href="{{ route('generos.index') }}" class="btn btn-secondary">
                                     <i class="fa-solid fa-trash me-1"></i> Limpar
                                 </a>
                             </div>
@@ -70,40 +49,29 @@
             </div>
 
             <div class="card">
-                <div class="card-header">Filmes</div>
+                <div class="card-header">Géneros</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Cartaz</th>
-                                <th scope="col">Título</th>
-                                <th scope="col">Género</th>
-                                <th scope="col">Ano</th>
+                                <th scope="col">Nome</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($filmes as $filme)
+                            @foreach ($generos as $genero)
                             <tr>
-                                <th scope="row">{{ $filme->id }}</th>
-                                <th>
-                                    <a href="{{ $filme->getCartazPath() }}" target="_blank">
-                                        <img src="{{ $filme->getCartazPath() }}" alt="" class="img-fluid"
-                                            style="max-width: 100px">
-                                    </a>
-                                </th>
-                                <td>{{ $filme->titulo }}</td>
-                                <td>{{ $filme->genero->nome }}</td>
-                                <td>{{ $filme->ano }}</td>
+                                <th scope="row">{{ $genero->code }}</th>
+                                <td>{{ $genero->nome }}</td>
                                 <td>
-                                    <a href="{{ route('filmes.show', $filme->id) }}" class="btn btn-sm btn-success">
+                                    <a href="{{ route('generos.show', $genero->code) }}" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('filmes.edit', $filme->id) }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('generos.edit', $genero->code) }}" class="btn btn-sm btn-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                    <form action="{{ route('filmes.destroy', $filme->id) }}" method="post"
+                                    <form action="{{ route('generos.destroy', $genero->code) }}" method="post"
                                         class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
@@ -118,7 +86,7 @@
                     </table>
 
                     <div class="mt-4">
-                        {{ $filmes->withQueryString()->links() }}
+                        {{ $generos->withQueryString()->links() }}
                     </div>
                 </div>
             </div>

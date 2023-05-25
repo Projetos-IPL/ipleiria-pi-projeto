@@ -30,8 +30,12 @@
                                 <div class="col">
                                     <div>
                                         <label for="genero_code" class="form-label">Género</label>
-                                        <input type="text" class="form-control" id="genero_code" name="genero_code"
-                                            value="{{ $filme->genero->nome }}" readonly>
+                                        <select class="form-select" id="genero_code" name="genero_code" disabled>
+                                            @foreach ($generos as $genero)
+                                            <option {{ $filme->genero_code==$genero->code ? 'selected' : '' }}
+                                                value="{{ $genero->code }}">{{ $genero->nome }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +77,7 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-2">
-                            <a href="{{ route('admin.filmes.index') }}" class="btn btn-dark d-block">
+                            <a href="{{ route('filmes.index') }}" class="btn btn-dark d-block">
                                 <i class="fa-solid fa-left-long me-2"></i> Voltar à lista
                             </a>
                         </div>

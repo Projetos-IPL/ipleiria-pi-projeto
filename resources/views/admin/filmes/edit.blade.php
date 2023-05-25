@@ -19,7 +19,7 @@
             </div>
             @endif
 
-            <form method="post" action="{{ route('admin.filmes.update', $filme->id) }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('filmes.update', $filme->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -102,7 +102,7 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-2">
-                                <a href="{{ route('admin.filmes.index') }}" class="btn btn-dark d-block">
+                                <a href="{{ route('filmes.index') }}" class="btn btn-dark d-block">
                                     <i class="fa-solid fa-left-long me-2"></i> Voltar à lista
                                 </a>
                             </div>

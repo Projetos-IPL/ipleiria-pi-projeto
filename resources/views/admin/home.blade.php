@@ -14,7 +14,13 @@
                     </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    <p>Funcionalidade feita:</p>
+                    <ul>
+                        <li>Filmes</li>
+                        <li>Género</li>
+                        <li>Utilizadores</li>
+                        <li>Configuração</li>
+                    </ul>
                 </div>
             </div>
         </div>

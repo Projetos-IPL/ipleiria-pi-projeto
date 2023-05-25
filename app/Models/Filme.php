@@ -21,7 +21,7 @@ class Filme extends Model
         'custom'
     ];
 
-    public function getCartazPath()
+    public function getCartazPath(): string
     {
         if (!$this->cartaz_url) {
             return '/img/cartaz_default.png';
