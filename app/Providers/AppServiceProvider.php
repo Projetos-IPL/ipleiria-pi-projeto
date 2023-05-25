@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,5 +25,9 @@ class AppServiceProvider extends ServiceProvider
         $this->loadViewsFrom(base_path('resources/views/public'), 'public');
 
         Paginator::useBootstrapFive();
+
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
