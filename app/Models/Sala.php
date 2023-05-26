@@ -29,7 +29,7 @@ class Sala extends Model
 
     public function getFilasForSala()
     {
-        return $this->lugares()->select('fila')->distinct()->get();
+        return $this->lugares()->select('fila')->distinct()->orderBy('fila', 'DESC')->get();
     }
 
     public function lugares()

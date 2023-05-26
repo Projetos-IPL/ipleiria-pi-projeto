@@ -29,8 +29,10 @@ use App\Http\Controllers\ConfiguracaoController;
 |
 */
 
-Route::get('/', function () {
-    return view('public::index');
+Route::prefix('/')->group(function () {
+    Route::get('/', function () {
+        return view('public::index');
+    });
 });
 
 /*
@@ -42,16 +44,17 @@ Route::get('/', function () {
 |
 */
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::prefix('admin')->middleware(['auth', 'verified', 'can:restrict-user-type-administrator'])->group(function () {
+    Route::get('home', [HomeController::class, 'index'])->name('home');
 
-Route::resource('generos', GeneroController::class)->middleware('auth');
-Route::resource('filmes', FilmeController::class)->middleware('auth');
-Route::resource('utilizadores', UserController::class)->middleware('auth');
-Route::resource('salas', SalaController::class)->middleware('auth');
+    Route::resource('filmes', FilmeController::class);
+    Route::resource('generos', GeneroController::class);
+    Route::resource('utilizadores', UserController::class);
+    Route::resource('salas', SalaController::class);
 
-Route::get('/configuracoes', [ConfiguracaoController::class, 'edit'])->name('configuracoes.edit')->middleware('auth');
-Route::put('/configuracoes', [ConfiguracaoController::class, 'update'])->name('configuracoes.update')->middleware('auth');
-
+    Route::get('configuracoes', [ConfiguracaoController::class, 'edit'])->name('configuracoes.edit');
+    Route::put('configuracoes', [ConfiguracaoController::class, 'update'])->name('configuracoes.update');
+});
 
 // auth routes
-Auth::routes();
+Auth::routes(['verify' => true]);

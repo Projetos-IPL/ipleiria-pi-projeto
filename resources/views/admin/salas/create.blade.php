@@ -1,67 +1,53 @@
 @extends('admin.layouts.app')
 
-@section('styles')
-<style>
-    .fila {
-        background-color: #555;
-        border-radius: 5px;
-        color: #fff;
-        display: inline-block;
-        width: 75px;
-        text-align: center;
-    }
-
-    .posicao {
-        background-color: #000;
-        border-radius: 5px;
-        color: #fff;
-        display: inline-block;
-        width: 40px;
-        text-align: center;
-    }
-</style>
-@endsection
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-12">
+        <div class="col-10">
             <div class="mb-4">
-                <h2><i class="fa fa-people-roof me-3"></i>{{ $sala->nome }}</h2>
+                <h2><i class="fa fa-people-roof me-3"></i>Nova Sala</h2>
             </div>
 
-            <form method="post" action="{{ route('salas.update', $sala->id) }}">
+            @if($errors->any())
+            <div class="alert alert-danger">
+                <p>Verifique os dados introduzidos:</p>
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                    <li class="mb-0">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
+            <form method="post" action="{{ route('salas.store') }}">
                 @csrf
-                @method('PUT')
                 <div class="card">
-                    <div class="card-header">Visualizar sala</div>
+                    <div class="card-header">Criar sala</div>
                     <div class="card-body">
                         <div class="row mb-4">
                             <div class="col-9">
                                 <div>
                                     <label for="nome" class="form-label">Nome</label>
                                     <input type="text" class="form-control" id="nome" name="nome"
-                                        value="{{ $sala->nome }}" required>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div>
-                                    <label for="lotacao" class="form-label">Lotação</label>
-                                    <input type="text" class="form-control" id="lotacao" name="lotacao"
-                                        value="{{ $sala->getLotacao() }}" readonly>
-                                    <div class="form-text">Este valor é calculado automaticamente.</div>
+                                        value="{{ old('nome') }}" required>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-9">
                                 <h4 class="mb-3">Esquema da Sala</h4>
-
-                                @include('admin.partials._sala', ['sala' => $sala])
-
-                                <small>Nota: os lugares são estáticos, i.e. não podem ser
-                                    adicionados/alterados/removidos.</small>
+                                <div class="row mb-4">
+                                    <div class="col-6">
+                                        <label for="filas" class="form-label">Filas</label>
+                                        <input type="number" class="form-control" id="filas" name="filas"
+                                            value="{{ old('filas') }}" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="lugaresPorFila" class="form-label">Lugares por fila</label>
+                                        <input type="number" class="form-control" id="lugaresPorFila"
+                                            name="lugaresPorFila" value="{{ old('lugaresPorFila') }}" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -79,7 +65,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </form>
         </div>
     </div>

@@ -1,27 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('content')
-
-<style>
-    .fila {
-        background-color: #555;
-        border-radius: 5px;
-        color: #fff;
-        display: inline-block;
-        width: 75px;
-        text-align: center;
-    }
-
-    .posicao {
-        background-color: #000;
-        border-radius: 5px;
-        color: #fff;
-        display: inline-block;
-        width: 40px;
-        text-align: center;
-    }
-</style>
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
@@ -54,34 +33,7 @@
                         <div class="col-12">
                             <h4 class="mb-3">Esquema da Sala</h4>
 
-                            @if ($sala->lugares->isEmpty())
-                            <p>Sem lugares associados.</p>
-                            @else
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Fila</th>
-                                        <th scope="col">Lugares</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($sala->getFilasForSala() as $fila)
-                                    <tr>
-                                        <td>
-                                            <div class="fila p-2">{{ $fila->fila }}</div>
-                                        </td>
-                                        <td>
-                                            @foreach ($sala->getPosicoesForFila($fila->fila) as $posicao)
-                                            <div class="posicao p-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                data-bs-title="Fila: {{ $fila->fila }} - Lugar: {{ $posicao->posicao }}">
-                                                {{ $posicao->posicao }}</div>
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            @endif
+                            @include('admin.partials._sala', ['sala' => $sala])
 
                             <small>Nota: os lugares são estáticos, i.e. não podem ser
                                 adicionados/alterados/removidos.</small>

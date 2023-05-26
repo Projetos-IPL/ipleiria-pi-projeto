@@ -9,6 +9,11 @@
                     <div class="col-10">
                         <h2><i class="fa fa-people-roof me-3"></i>Salas</h2>
                     </div>
+                    <div class="col-2">
+                        <a href="{{ route('salas.create') }}" class="btn btn-dark d-block">
+                            <i class="fa-solid fa-plus me-2"></i> Nova Sala
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -68,7 +73,7 @@
                                     <a href="{{ route('salas.edit', $sala->id) }}" class="btn btn-sm btn-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                    <form action="{{ route('filmes.destroy', $sala->id) }}" method="post"
+                                    <form action="{{ route('salas.destroy', $sala->id) }}" method="post"
                                         class="d-inline-block">
                                         @csrf
                                         @method('DELETE')

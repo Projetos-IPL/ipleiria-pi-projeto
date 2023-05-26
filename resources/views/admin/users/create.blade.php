@@ -31,7 +31,7 @@
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nome*</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $user->name }}" required {{ $user->tipo == 'C' ? 'disabled' : '' }}>
+                                        value="{{ $user->name }}" required>
                                 </div>
 
                                 <div class="row mb-3">
@@ -39,14 +39,12 @@
                                         <div>
                                             <label for="email" class="form-label">Email*</label>
                                             <input type="email" class="form-control" id="email" name="email"
-                                                value="{{ $user->email }}" required {{ $user->tipo == 'C' ? 'disabled' :
-                                            '' }}>
+                                                value="{{ $user->email }}" required>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <label for="tipo" class="form-label">Tipo</label>
-                                        <select class="form-select" id="tipo" name="tipo" {{ $user->tipo == 'C' ?
-                                            'disabled' : '' }}>
+                                        <select class="form-select" id="tipo" name="tipo">
                                             <option {{ $user->tipo=='C' ? 'selected' : '' }} value="C">Cliente
                                             </option>
                                             <option {{ $user->tipo=='F' ? 'selected' : '' }} value="F">Funcionário
@@ -71,7 +69,6 @@
                                     <img src="{{ $user->getAvatarPath() }}" class="img-fluid">
                                 </a>
 
-                                @if ($user->tipo != 'C')
                                 <div class="mt-3">
                                     <label for="foto_url" class="form-label">Alterar avatar</label>
                                     <input type="file" class="form-control" id="foto_url" name="foto_url">
@@ -81,7 +78,6 @@
                                     <div class="alert alert-danger mt-3">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                @endif
                             </div>
                         </div>
 

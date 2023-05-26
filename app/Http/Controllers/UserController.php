@@ -42,6 +42,22 @@ class UserController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('admin::users.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(string $id)
@@ -57,6 +73,10 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
+
+        if ($user->id === auth()->user()->id) {
+            return redirect()->route('utilizadores.index')->with('error', 'Não pode editar o seu próprio perfil!');
+        }
 
         return view('admin::users.edit', compact('user'));
     }
