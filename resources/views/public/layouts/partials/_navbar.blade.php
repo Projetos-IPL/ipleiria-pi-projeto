@@ -46,7 +46,7 @@
         <div class="dropdown ms-3">
             <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                Login
+                Entrar
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">

@@ -54,7 +54,7 @@ class HomeController extends Controller
 
         return view(
             'admin::home',
-            compact('totalUsers', 'totalAdminUsers', 'totalCustomerUsers', 'totalFuncionarioUsers', 'totalFilmes', 'mostPopularGeneroName', 'leastPopularGeneroName', 'totalRevenue', 'totalRevenueValue', 'totalRevenueValueFiveDays')
+            compact('totalUsers', 'totalAdminUsers', 'totalCustomerUsers', 'totalFuncionarioUsers', 'totalFilmes', 'mostPopularGeneroName', 'leastPopularGeneroName', 'totalRevenue', 'totalRevenueValueBeginning', 'totalRevenueValueFiveDays')
         );
     }
 }
