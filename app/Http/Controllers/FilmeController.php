@@ -15,7 +15,7 @@ class FilmeController extends Controller
      */
     public function index(Request $request)
     {
-        $filmes = Filme::query();
+        $filmes = Filme::query()->with(['genero']);
 
         $filterByGenero = $request->query('genero') ?? '';
         $filterByPesquisa = $request->query('pesquisa') ?? '';

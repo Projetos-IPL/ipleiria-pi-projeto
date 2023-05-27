@@ -186,6 +186,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'AppHelper' => App\Helpers\AppHelper::class,
     ])->toArray(),
 
 ];

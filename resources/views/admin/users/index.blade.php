@@ -86,7 +86,7 @@
                                 <th scope="row">{{ $user->id }}</th>
                                 <td>
                                     <a href="{{ $user->getAvatarPath() }}" target="_blank">
-                                        <img src="{{ $user->getAvatarPath() }}" alt="" class="img-fluid"
+                                        <img src="{{ $user->getAvatarPath() }}" alt="" class="rounded-circle img-fluid"
                                             style="max-width: 64px">
                                     </a>
                                 </td>

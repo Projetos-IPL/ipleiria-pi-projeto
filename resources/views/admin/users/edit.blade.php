@@ -68,7 +68,7 @@
 
                             <div class="col-4">
                                 <a href="{{ $user->getAvatarPath() }}" target="_blank">
-                                    <img src="{{ $user->getAvatarPath() }}" class="img-fluid">
+                                    <img src="{{ $user->getAvatarPath() }}" class="img-fluid rounded-circle">
                                 </a>
 
                                 @if ($user->tipo != 'C')

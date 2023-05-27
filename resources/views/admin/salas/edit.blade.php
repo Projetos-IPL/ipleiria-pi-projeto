@@ -61,7 +61,7 @@
                                 @include('admin.partials._sala', ['sala' => $sala])
 
                                 <small>Nota: os lugares são estáticos, i.e. não podem ser
-                                    adicionados/alterados/removidos.</small>
+                                    adicionados/alterados/removidos após a criação da sala.</small>
                             </div>
                         </div>
                     </div>

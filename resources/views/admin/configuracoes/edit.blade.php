@@ -43,7 +43,8 @@
                                 <div class="mb-3">
                                     <label for="titulo" class="form-label">Percentagem IVA*</label>
                                     <input type="text" class="form-control" id="percentagem_iva" name="percentagem_iva"
-                                        value="{{ $configuracao->percentagem_iva }}" required>
+                                        value="{{ $configuracao->percentagem_iva }}" required
+                                        onchange="atualizarPrecoBilhete(this.value);">
                                 </div>
                             </div>
 
