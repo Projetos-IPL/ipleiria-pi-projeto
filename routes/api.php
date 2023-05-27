@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Sala;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// TODO: add future stats endpoints here, to use in Admin dashboard

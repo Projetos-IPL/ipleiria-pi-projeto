@@ -39,6 +39,25 @@
                     </form>
                 </li>
             </ul>
-            @endauth
         </div>
+        @endauth
+
+        @guest
+        <div class="dropdown ms-3">
+            <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Login
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                    <a class="dropdown-item" href="{{ route('login') }}">Login</a>
+                </li>
+                <hr class="dropdown-divider">
+                <li>
+                    <a class="dropdown-item" href="{{ route('register') }}">Registar</a>
+                </li>
+            </ul>
+        </div>
+        @endguest
 </nav>
