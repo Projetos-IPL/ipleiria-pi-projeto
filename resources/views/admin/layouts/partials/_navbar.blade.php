@@ -28,6 +28,10 @@
                     <a class="nav-link {{ (str_contains(url()->current(), 'salas')) ? 'active' : '' }}"
                         href="{{ route('salas.index') }}">Salas</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (str_contains(url()->current(), 'sessoes')) ? 'active' : '' }}"
+                        href="{{ route('sessoes.index') }}">Sessões</a>
+                </li>
             </ul>
             @endauth
 

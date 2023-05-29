@@ -7,6 +7,7 @@ use App\Http\Controllers\SalaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\GeneroController;
+use App\Http\Controllers\SessaoController;
 use App\Http\Controllers\ConfiguracaoController;
 
 /*
@@ -51,6 +52,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'can:restrict-user-type-
     Route::resource('generos', GeneroController::class);
     Route::resource('utilizadores', UserController::class);
     Route::resource('salas', SalaController::class);
+    Route::resource('sessoes', SessaoController::class);
 
     Route::get('configuracoes', [ConfiguracaoController::class, 'edit'])->name('configuracoes.edit');
     Route::put('configuracoes', [ConfiguracaoController::class, 'update'])->name('configuracoes.update');
