@@ -9,6 +9,11 @@
                     <div class="col-10">
                         <h2><i class="fa-solid fa-users me-3"></i>Utilizadores</h2>
                     </div>
+                    <div class="col-2">
+                        <a href="{{ route('utilizadores.create') }}" class="btn btn-dark d-block">
+                            <i class="fa-solid fa-plus me-2"></i> Novo Utilizador
+                        </a>
+                    </div>
                 </div>
             </div>
 

@@ -51,7 +51,10 @@ class SessaoController extends Controller
      */
     public function create()
     {
-        //
+        $filmes = Filme::all()->sortBy('titulo')->whereNull('deleted_at');
+        $salas = Sala::all()->whereNull('deleted_at');
+
+        return view('admin::sessoes.create', compact('filmes', 'salas'));
     }
 
     /**
@@ -59,7 +62,27 @@ class SessaoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $request->validate([
+            'filme_id' => 'required|exists:filmes,id',
+            'sala_id' => 'required|exists:salas,id',
+            'data' => 'required|date',
+            'horario_inicio' => 'required|date_format:H:i',
+        ]);
+
+        if ($validation) {
+            $sessao = new Sessao();
+            $sessao->filme_id = $request->filme_id;
+            $sessao->sala_id = $request->sala_id;
+            $sessao->data = $request->data;
+            $sessao->horario_inicio = $request->horario_inicio;
+            $sessao->save();
+
+            return redirect()->route('sessoes.index')->with('success', 'Sessão criada com sucesso!');
+        } else {
+            return redirect()->back()->withErrors($validation);
+        }
+
+        return redirect()->back()->with('error', 'Ocorreu um erro ao criar a sessão!');
     }
 
     /**

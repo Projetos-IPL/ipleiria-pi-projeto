@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Sala;
+use App\Models\Filme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// TODO: add future stats endpoints here, to use in Admin dashboard
+Route::get('/filmes/{id}/cartaz', function (int $id) {
+    $cartazPath = Filme::findOrFail($id)->getCartazPath();
+
+    return response()->json([
+        'cartaz_url' => url('/') . $cartazPath,
+    ]);
+})->name('api.filmes.cartaz');

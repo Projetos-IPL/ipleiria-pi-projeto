@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class UserController extends Controller
 {
@@ -54,7 +55,33 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'tipo' => 'required|in:A,F',
+            'bloqueado' => 'boolean',
+        ]);
+
+        if ($validation) {
+            $user = User::create($request->except('foto_url', 'password_confirmation'));
+        } else {
+            return redirect()->back()->withErrors($validation);
+        }
+
+        if ($request->hasFile('foto_url')) {
+            $fotoUrl = $request->file('foto_url');
+
+            $fotoUrlName = $user->id . '_' . time() . '.' . $fotoUrl->getClientOriginalExtension();
+
+            $fotoUrl->move(storage_path('app/public/fotos'), $fotoUrlName);
+            $user->foto_url = $fotoUrlName;
+            $user->save();
+        }
+
+        event(new Registered($user));
+
+        return redirect()->route('utilizadores.index')->with('success', 'Utilizador criado com sucesso!');
     }
 
     /**

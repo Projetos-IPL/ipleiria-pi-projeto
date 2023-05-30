@@ -1,5 +1,8 @@
 import "./bootstrap";
 
+import $ from "jquery";
+window.$ = $;
+
 import { Tooltip } from "bootstrap";
 
 const tooltipTriggerList = document.querySelectorAll(

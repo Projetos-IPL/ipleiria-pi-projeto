@@ -10,7 +10,7 @@
                         <h2><i class="fa-solid fa-clapperboard me-3"></i>Sessões</h2>
                     </div>
                     <div class="col-2">
-                        <a href="{{ route('salas.create') }}" class="btn btn-dark d-block">
+                        <a href="{{ route('sessoes.create') }}" class="btn btn-dark d-block">
                             <i class="fa-solid fa-plus me-2"></i> Nova Sessão
                         </a>
                     </div>
@@ -76,6 +76,7 @@
                                 <th scope="col">Filme</th>
                                 <th scope="col">Sala</th>
                                 <th scope="col">Data e Hora</th>
+                                <th scope="col">Bilhetes Vendidos</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -90,9 +91,10 @@
                                 </td>
                                 <td>{{ $sessao->sala->nome }}</td>
                                 <td>
-                                    {{ $sessao->data }},
-                                    {{ $sessao->horario_inicio }}
+                                    {{ \Carbon\Carbon::parse($sessao->data)->format('d M Y') }},
+                                    {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}
                                 </td>
+                                <td>...</td>
                                 <td>
                                     <a href="{{ route('salas.show', $sessao->id) }}" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-eye"></i>

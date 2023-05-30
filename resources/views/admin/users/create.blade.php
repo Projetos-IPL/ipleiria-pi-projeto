@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-10">
             <div class="mb-4">
-                <h2><i class="fa-solid fa-users me-3"></i>{{ $user->name }}</h2>
+                <h2><i class="fa-solid fa-users me-3"></i>Novo Utilizador</h2>
             </div>
 
             @if($errors->any())
@@ -19,57 +19,60 @@
             </div>
             @endif
 
-            <form method="post" action="{{ route('utilizadores.update', $user->id) }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('utilizadores.store') }}" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
 
                 <div class="card">
-                    <div class="card-header">Alterar utilizador</div>
+                    <div class="card-header">Criar utilizador</div>
                     <div class="card-body">
                         <div class="row mb-4">
                             <div class="col-8">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nome*</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $user->name }}" required>
+                                    <input type="text" class="form-control" id="name" name="name" required>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col">
                                         <div>
                                             <label for="email" class="form-label">Email*</label>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                value="{{ $user->email }}" required>
+                                            <input type="email" class="form-control" id="email" name="email" required>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <label for="tipo" class="form-label">Tipo</label>
                                         <select class="form-select" id="tipo" name="tipo">
-                                            <option {{ $user->tipo=='C' ? 'selected' : '' }} value="C">Cliente
-                                            </option>
-                                            <option {{ $user->tipo=='F' ? 'selected' : '' }} value="F">Funcionário
-                                            </option>
-                                            <option {{ $user->tipo=='A' ? 'selected' : '' }} value="A">Administrador
-                                            </option>
+                                            <option value="F">Funcionário</option>
+                                            <option value="A">Administrador</option>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label for="password" class="form-label">Password*</label>
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            required autocomplete="off">
+                                    </div>
+                                    <div class="col">
+                                        <label for="password_confirmation" class="form-label">Confirmar
+                                            Password*</label>
+                                        <input type="password" class="form-control" id="password_confirmation"
+                                            name="password_confirmation" required autocomplete="off">
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="1" id="bloqueado"
-                                            name="bloqueado" {{ $user->bloqueado=="1" ? "checked" : "" }}>
+                                            name="bloqueado">
                                         <label class="form-check-label" for="bloqueado">Bloqueado</label>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-4">
-                                <a href="{{ $user->getAvatarPath() }}" target="_blank">
-                                    <img src="{{ $user->getAvatarPath() }}" class="img-fluid">
-                                </a>
-
-                                <div class="mt-3">
+                                <div>
                                     <label for="foto_url" class="form-label">Alterar avatar</label>
                                     <input type="file" class="form-control" id="foto_url" name="foto_url">
                                     <div class="form-text">O avatar deve ter uma dimensão de 128px.</div>
