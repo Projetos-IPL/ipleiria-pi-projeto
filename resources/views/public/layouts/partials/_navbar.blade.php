@@ -29,6 +29,17 @@
                 @endif
 
                 <li>
+                    <span class="dropdown-item" href="#">Tipo: {{ auth()->user()->getPrettyTipo() }}</span>
+                </li>
+
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                    <a class="dropdown-item" href="{{ route('utilizadores.publicProfile') }}">Perfil</a>
+                </li>
+                <li>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
@@ -43,10 +54,10 @@
         @endauth
 
         @guest
-        <div class="dropdown ms-3">
+        <div class="dropdown ms-1">
             <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                Entrar
+                Conta
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">

@@ -91,7 +91,31 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        if ($user->tipo == 'C') {
+            $bilhetes = $user->cliente->bilhete()
+                ->with('lugar')
+                ->orderBy('estado')
+                ->orderBy('sessao_id', 'DESC')
+                ->paginate(10);
+
+            return view('admin::users.show', compact('user', 'bilhetes'));
+        }
+
         return view('admin::users.show', compact('user'));
+    }
+
+    public function showAdminProfile()
+    {
+        $user = auth()->user();
+
+        return view('admin::users.profile', compact('user'));
+    }
+
+    public function showPublicProfile()
+    {
+        $user = auth()->user();
+
+        return view('public::users.profile', compact('user'));
     }
 
     /**
@@ -139,7 +163,7 @@ class UserController extends Controller
             $user->save();
         }
 
-        return redirect()->route('utilizadores.index')->with('success', 'Utilizador atualizado com sucesso!');
+        return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
     }
 
     /**

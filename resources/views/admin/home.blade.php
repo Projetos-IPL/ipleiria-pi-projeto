@@ -10,7 +10,9 @@
             </div>
             @endif
 
-            <div class="row mb-4">
+            <div class="row">
+                <h2 class="mb-4">Visão geral</h2>
+
                 <div class="col-md-4">
                     <div class="card text-center">
                         <div class="card-header">Utilizadores</div>
@@ -69,13 +71,13 @@
                 <div class="col-md-4">
                     <div class="card text-center">
                         <div class="card-body text-start">
-                            <div class="mb-4">
+                            <div class="mb-5">
                                 <div class="row">
                                     <div class="col-3">
                                         <img src="{{ Auth::user()->getAvatarPath() }}" alt="user"
                                             class="rounded-circle img-fluid">
                                     </div>
-                                    <div class="col-9">
+                                    <div class="col-9 mt-2">
                                         <h5 class="mb-0">Olá,</h5>
                                         <h3 class="fw-bold">{{ Auth::user()->name }}</h3>
                                     </div>
@@ -100,10 +102,38 @@
                                 </li>
                             </ul>
 
-                            <div class="mt-5">
-                                <a href="{{ route('utilizadores.edit', Auth::user()->id) }}" class="btn btn-dark">
+                            <div class="mt-4">
+                                <a href="{{ route('utilizadores.adminProfile') }}" class="btn btn-dark">
                                     Editar perfil
                                 </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-header">Sessões</div>
+
+                        <div class="card-body">
+                            <div class="mt-2">
+                                <h1 class="display-6">{{ $totalSessoesLast5Days }}</h1>
+                                <h4>Sessões dos últimos 5 dias</h4>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col">
+                                    <h3>{{ $totalSessoesLast30Days }}</h3>
+                                    <p>Últimos 30 dias</p>
+                                </div>
+                                <div class="col">
+                                    <h3>{{ $totalSessoesNext3Days }}</h3>
+                                    <p>Próximos 3 dias</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,7 +164,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

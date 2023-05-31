@@ -23,4 +23,9 @@ class Lugar extends Model
     {
         return $this->belongsTo(Sala::class);
     }
+
+    public function getPrettyLugar(): string
+    {
+        return $this->fila . $this->posicao;
+    }
 }

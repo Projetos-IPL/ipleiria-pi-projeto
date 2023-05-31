@@ -33,7 +33,9 @@ use App\Http\Controllers\ConfiguracaoController;
 Route::prefix('/')->group(function () {
     Route::get('/', function () {
         return view('public::index');
-    });
+    })->name('index');
+
+    Route::get('perfil', [UserController::class, 'showPublicProfile'])->name('utilizadores.publicProfile');
 });
 
 /*
@@ -53,6 +55,8 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'can:restrict-user-type-
     Route::resource('utilizadores', UserController::class);
     Route::resource('salas', SalaController::class);
     Route::resource('sessoes', SessaoController::class);
+
+    Route::get('perfil', [UserController::class, 'showAdminProfile'])->name('utilizadores.adminProfile');
 
     Route::get('configuracoes', [ConfiguracaoController::class, 'edit'])->name('configuracoes.edit');
     Route::put('configuracoes', [ConfiguracaoController::class, 'update'])->name('configuracoes.update');

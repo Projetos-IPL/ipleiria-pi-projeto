@@ -8,4 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Recibo extends Model
 {
     use HasFactory;
+
+    protected $table = 'recibos';
+
+    protected $fillable = [
+        'cliente_id',
+        'data',
+        'preco_total_sem_iva',
+        'iva',
+        'preco_total_com_iva',
+        'nif',
+        'nome_cliente',
+        'tipo_pagamento',
+        'ref_pagamento',
+        'recibo_pdf_url',
+    ];
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);
+    }
 }

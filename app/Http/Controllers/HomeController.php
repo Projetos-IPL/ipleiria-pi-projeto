@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\AppHelper;
 use App\Models\User;
 use App\Models\Filme;
+use App\Models\Sessao;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -52,9 +53,18 @@ class HomeController extends Controller
                 ->sum('preco_total_com_iva')
         );
 
+        // get a count for sessoes in the last 5 days
+        $totalSessoesLast5Days = Sessao::where('created_at', '>=', now()->subDays(5))->count();
+
+        // get a count for sessoes in the last 30 days
+        $totalSessoesLast30Days = Sessao::where('created_at', '>=', now()->subDays(30))->count();
+
+        // get a count for sessoes for the next 3 days
+        $totalSessoesNext3Days = Sessao::where('created_at', '>=', now()->subDays(3))->count();
+
         return view(
             'admin::home',
-            compact('totalUsers', 'totalAdminUsers', 'totalCustomerUsers', 'totalFuncionarioUsers', 'totalFilmes', 'mostPopularGeneroName', 'leastPopularGeneroName', 'totalRevenue', 'totalRevenueValueBeginning', 'totalRevenueValueFiveDays')
+            compact('totalUsers', 'totalAdminUsers', 'totalCustomerUsers', 'totalFuncionarioUsers', 'totalFilmes', 'mostPopularGeneroName', 'leastPopularGeneroName', 'totalRevenue', 'totalRevenueValueBeginning', 'totalRevenueValueFiveDays', 'totalSessoesLast5Days', 'totalSessoesLast30Days', 'totalSessoesNext3Days')
         );
     }
 }

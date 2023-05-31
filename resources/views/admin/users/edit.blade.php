@@ -67,9 +67,11 @@
                             </div>
 
                             <div class="col-4">
-                                <a href="{{ $user->getAvatarPath() }}" target="_blank">
-                                    <img src="{{ $user->getAvatarPath() }}" class="img-fluid rounded-circle">
-                                </a>
+                                <div class="text-center">
+                                    <a href="{{ $user->getAvatarPath() }}" target="_blank">
+                                        <img src="{{ $user->getAvatarPath() }}" class="img-fluid rounded-circle">
+                                    </a>
+                                </div>
 
                                 @if ($user->tipo != 'C')
                                 <div class="mt-3">

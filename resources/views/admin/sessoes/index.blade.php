@@ -81,6 +81,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if ($sessoes->isEmpty())
+                            <tr>
+                                <td colspan="6" class="text-center">Nenhuma sessão encontrada</td>
+                            </tr>
+                            @endif
+
                             @foreach ($sessoes as $sessao)
                             <tr>
                                 <th scope="row">{{ $sessao->id }}</th>
@@ -116,9 +122,11 @@
                         </tbody>
                     </table>
 
+                    @if (!$sessoes->isEmpty())
                     <div class="mt-4">
                         {{ $sessoes->withQueryString()->links() }}
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

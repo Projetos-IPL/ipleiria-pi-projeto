@@ -35,10 +35,15 @@ class SessaoController extends Controller
             $sessoes = $sessoes->where('sala_id', $filterBySala);
         }
 
-        $sessoes = $sessoes->toQuery()->paginate($this->resultsPerPage);
-
         $filmes = Filme::all()->sortBy('titulo')->whereNull('deleted_at');
         $salas = Sala::all()->whereNull('deleted_at');
+
+        // check if sessoes query is empty
+        if ($sessoes->isEmpty()) {
+            return view('admin::sessoes.index', compact('sessoes', 'filmes', 'salas', 'filterByFilme', 'filterBySala'));
+        }
+
+        $sessoes = $sessoes->toQuery()->paginate($this->resultsPerPage);
 
         return view(
             'admin::sessoes.index',
@@ -88,9 +93,9 @@ class SessaoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Sessao $sessao)
+    public function show(int $id)
     {
-        //
+        dd($id);
     }
 
     /**

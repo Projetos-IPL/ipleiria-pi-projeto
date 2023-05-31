@@ -49,13 +49,58 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-4 text-center">
                             <a href="{{ $user->getAvatarPath() }}" target="_blank">
                                 <img src="{{ $user->getAvatarPath() }}" class="img-fluid rounded-circle">
                             </a>
                         </div>
                     </div>
 
+                    @if ($user->tipo == 'C')
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="mb-4">Bilhetes</h3>
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Recibo</th>
+                                        <th scope="col">Sessão</th>
+                                        <th scope="col">Lugar e Sala</th>
+                                        <th scope="col">Preço com IVA</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($bilhetes as $bilhete)
+                                    <tr>
+                                        <td>{{ $bilhete->id }}</td>
+                                        <td>{{ $bilhete->recibo_id }}</td>
+                                        <td>
+                                            <a href="{{ route('sessoes.show', $bilhete->sessao_id) }}">{{
+                                                $bilhete->sessao_id }}</a>
+                                        </td>
+                                        <td>{{ $bilhete->lugar->getPrettyLugar() }} | {{ $bilhete->lugar->sala->nome }}
+                                        </td>
+                                        <td>{{ $bilhete->getPrecoComIva() }} €</td>
+                                        <td>{{ $bilhete->getPrettyEstado() }}</td>
+                                        <td>
+                                            <a href="#"><i class="fa-solid fa-file-pdf me-2 fa-lg"></i>Transferir
+                                                Bilhete</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                            <div class="mt-4">
+                                {{ $bilhetes->withQueryString()->links() }}
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
                 <div class="card-footer">
                     <div class="row">

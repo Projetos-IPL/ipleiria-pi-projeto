@@ -47,7 +47,12 @@ class Bilhete extends Model
 
     public function getPrecoComIva()
     {
-        $valorIva = Configuracao::first()->get('percentagem_iva');
-        return $this->preco_sem_iva + ($this->preco_sem_iva * $valorIva / 100);
+        $valorIva = Configuracao::first()->percentagem_iva;
+        return number_format($this->preco_sem_iva + ($this->preco_sem_iva * floatval($valorIva) / 100), 2, ',', '.');
+    }
+
+    public function getPrettyEstado()
+    {
+        return ucwords($this->estado);
     }
 }

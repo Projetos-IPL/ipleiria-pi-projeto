@@ -47,6 +47,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'id', 'id');
+    }
+
     public function getAvatarPath(): string
     {
         if (!$this->foto_url) {

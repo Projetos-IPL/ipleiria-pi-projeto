@@ -63,7 +63,11 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Perfil</a>
+                        <!-- do not show for users with tipo == 'F' -->
+                        @if (Auth::user()->tipo != 'F')
+                        <a class="dropdown-item" href="{{ route('utilizadores.adminProfile') }}">Perfil</a>
+                        @endif
+
                         <hr class="dropdown-divider">
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
