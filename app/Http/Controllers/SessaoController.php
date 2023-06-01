@@ -16,7 +16,7 @@ class SessaoController extends Controller
      */
     public function index(Request $request)
     {
-        $sessoes = Sessao::orderBy('data', 'asc')->orderBy('horario_inicio', 'asc')->get();
+        $sessoes = Sessao::orderBy('data', 'asc')->orderBy('horario_inicio', 'asc')->with('filme', 'sala')->get();
 
         $sessoes = $sessoes->filter(function ($sessao) {
             $sessaoDate = $sessao->data . ' ' . $sessao->horario_inicio;
@@ -101,9 +101,18 @@ class SessaoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Sessao $sessao)
+    public function edit(int $id)
     {
-        //
+        $sessao = Sessao::findOrFail($id);
+
+        if ($sessao->bilhetes->count() > 0) {
+            return redirect()->back()->with('error', 'Não é possível remover uma sessão com bilhetes associados!');
+        }
+
+        $filmes = Filme::all()->sortBy('titulo')->whereNull('deleted_at');
+        $salas = Sala::all()->whereNull('deleted_at');
+
+        return view('admin::sessoes.edit', compact('sessao', 'filmes', 'salas'));
     }
 
     /**
@@ -117,8 +126,19 @@ class SessaoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Sessao $sessao)
+    public function destroy(int $id)
     {
-        //
+        $sessao = Sessao::findOrFail($id);
+
+        if ($sessao->bilhetes->count() > 0) {
+            return redirect()->back()->with('error', 'Não é possível remover uma sessão com bilhetes associados!');
+        }
+
+        if ($sessao) {
+            $sessao->delete();
+            return redirect()->route('sessoes.index')->with('success', 'Sessão removida com sucesso!');
+        }
+
+        return redirect()->back()->with('error', 'Ocorreu um erro ao remover a sessão!');
     }
 }

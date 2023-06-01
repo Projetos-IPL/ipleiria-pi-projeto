@@ -15,8 +15,8 @@ class ConfiguracaoController extends Controller
         $configuracao = Configuracao::first();
 
         $validation = $request->validate([
-            'preco_bilhete_sem_iva' => 'required|numeric',
-            'percentagem_iva' => 'required|numeric',
+            'preco_bilhete_sem_iva' => 'required|numeric|min:0',
+            'percentagem_iva' => 'required|numeric|max:100|min:0',
         ]);
 
         if ($validation) {

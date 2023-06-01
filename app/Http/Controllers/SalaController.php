@@ -15,7 +15,7 @@ class SalaController extends Controller
      */
     public function index(Request $request)
     {
-        $salas = Sala::query()->where('deleted_at', null);
+        $salas = Sala::query()->where('deleted_at', null)->with('lugares')->orderBy('nome');
 
         $filterByPesquisa = $request->query('pesquisa') ?? '';
 

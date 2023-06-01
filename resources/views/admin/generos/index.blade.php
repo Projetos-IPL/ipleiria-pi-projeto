@@ -56,6 +56,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nome</th>
+                                <th scope="col"># Filmes</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -64,6 +65,7 @@
                             <tr>
                                 <th scope="row">{{ $genero->code }}</th>
                                 <td>{{ $genero->nome }}</td>
+                                <td>{{ $genero->filmes->count() }}</td>
                                 <td>
                                     <a href="{{ route('generos.show', $genero->code) }}" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-eye"></i>

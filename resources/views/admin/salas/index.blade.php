@@ -65,7 +65,7 @@
                             <tr>
                                 <th scope="row">{{ $sala->id }}</th>
                                 <td>{{ $sala->nome }}</td>
-                                <td>{{ $sala->getLotacao() }}</td>
+                                <td>{{ $sala->lugares->count() }}</td>
                                 <td>
                                     <a href="{{ route('salas.show', $sala->id) }}" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-eye"></i>

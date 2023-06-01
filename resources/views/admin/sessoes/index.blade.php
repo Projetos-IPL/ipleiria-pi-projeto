@@ -23,6 +23,12 @@
             </div>
             @endif
 
+            @if (session('error'))
+            <div class="alert alert-danger mb-4">
+                {{ session('error') }}
+            </div>
+            @endif
+
             <div class="card mb-4">
                 <div class="card-header">Filtrar e Pesquisar</div>
                 <div class="card-body">
@@ -100,7 +106,7 @@
                                     {{ \Carbon\Carbon::parse($sessao->data)->format('d M Y') }},
                                     {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}
                                 </td>
-                                <td>...</td>
+                                <td>{{ $sessao->bilhetes->count() }}
                                 <td>
                                     <a href="{{ route('salas.show', $sessao->id) }}" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-eye"></i>
@@ -108,7 +114,7 @@
                                     <a href="{{ route('salas.edit', $sessao->id) }}" class="btn btn-sm btn-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                    <form action="{{ route('salas.destroy', $sessao->id) }}" method="post"
+                                    <form action="{{ route('sessoes.destroy', $sessao->id) }}" method="post"
                                         class="d-inline-block">
                                         @csrf
                                         @method('DELETE')

@@ -17,11 +17,6 @@ class Sala extends Model
         'nome',
     ];
 
-    public function getLotacao()
-    {
-        return $this->lugares()->count();
-    }
-
     public function getPosicoesForFila(string $fila)
     {
         return $this->lugares()->where('fila', $fila)->get('posicao');

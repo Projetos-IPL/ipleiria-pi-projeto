@@ -27,4 +27,9 @@ class Sessao extends Model
     {
         return $this->belongsTo(Sala::class, 'sala_id');
     }
+
+    public function bilhetes()
+    {
+        return $this->hasMany(Bilhete::class, 'sessao_id');
+    }
 }

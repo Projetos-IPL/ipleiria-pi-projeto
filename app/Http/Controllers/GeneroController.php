@@ -14,7 +14,7 @@ class GeneroController extends Controller
      */
     public function index(Request $request)
     {
-        $generos = Genero::query()->where('deleted_at', null);
+        $generos = Genero::query()->where('deleted_at', null)->with('filmes')->orderBy('nome');
 
         $filterByPesquisa = $request->query('pesquisa') ?? '';
 

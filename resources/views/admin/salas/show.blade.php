@@ -23,7 +23,7 @@
                             <div>
                                 <label for="nome" class="form-label">Lotação</label>
                                 <input type="text" class="form-control" id="nome" name="nome"
-                                    value="{{ $sala->getLotacao() }}" readonly>
+                                    value="{{ $sala->lugares->count() }}" readonly>
                                 <div class="form-text">Este valor é calculado automaticamente.</div>
                             </div>
                         </div>
