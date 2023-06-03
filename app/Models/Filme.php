@@ -34,4 +34,9 @@ class Filme extends Model
     {
         return $this->belongsTo(Genero::class, 'genero_code', 'code');
     }
+
+    public function sessoes()
+    {
+        return $this->hasMany(Sessao::class, 'filme_id');
+    }
 }

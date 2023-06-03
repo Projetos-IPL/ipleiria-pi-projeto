@@ -23,6 +23,12 @@
             </div>
             @endif
 
+            @if (session('error'))
+            <div class="alert alert-danger mb-4">
+                {{ session('error') }}
+            </div>
+            @endif
+
             <div class="card mb-4">
                 <div class="card-header">Filtrar e Pesquisar</div>
                 <div class="card-body">

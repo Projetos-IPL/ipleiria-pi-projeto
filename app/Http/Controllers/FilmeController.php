@@ -158,6 +158,12 @@ class FilmeController extends Controller
     public function destroy(int $id)
     {
         $filme = Filme::findOrFail($id);
+
+        // check if filme has sessoes associadas
+        if ($filme->sessoes()->count() > 0) {
+            return redirect()->back()->with('error', 'Não é possível eliminar o filme porque tem sessões associadas!');
+        }
+
         $filme->delete();
 
         return redirect()->route('filmes.index')->with('success', 'Filme eliminado com sucesso!');

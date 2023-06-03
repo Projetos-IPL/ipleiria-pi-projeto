@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\SessaoController;
+use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ConfiguracaoController;
 
 /*
@@ -36,6 +37,8 @@ Route::prefix('/')->group(function () {
     })->name('index');
 
     Route::get('perfil', [UserController::class, 'showPublicProfile'])->name('utilizadores.publicProfile');
+
+    Route::get('/bilhete/{id}/pdf', [BilheteController::class, 'showPDF'])->name('bilhetes.showPDF');
 });
 
 /*

@@ -108,10 +108,10 @@
                                 </td>
                                 <td>{{ $sessao->bilhetes->count() }}
                                 <td>
-                                    <a href="{{ route('salas.show', $sessao->id) }}" class="btn btn-sm btn-success">
+                                    <a href="{{ route('sessoes.show', $sessao->id) }}" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('salas.edit', $sessao->id) }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('sessoes.edit', $sessao->id) }}" class="btn btn-sm btn-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <form action="{{ route('sessoes.destroy', $sessao->id) }}" method="post"

@@ -95,7 +95,10 @@ class SessaoController extends Controller
      */
     public function show(int $id)
     {
-        dd($id);
+        $sessao = Sessao::findOrFail($id);
+        $bilhetes = $sessao->bilhetes()->paginate($this->resultsPerPage);
+
+        return view('admin::sessoes.show', compact('sessao', 'bilhetes'));
     }
 
     /**
