@@ -14,7 +14,7 @@
         border-radius: 5px;
         color: #fff;
         display: inline-block;
-        width: 40px;
+        width: 50px;
         text-align: center;
         cursor: pointer;
     }
@@ -36,10 +36,7 @@
             </td>
             <td class="text-center">
                 @foreach ($sala->getPosicoesForFila($fila->fila) as $posicao)
-                <div class="posicao p-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                    data-bs-title="Lugar {{ $fila->fila }}{{ $posicao->posicao }}">
-                    {{ $posicao->posicao }}
-                </div>
+                <div class="posicao p-2">{{ $fila->fila }}{{ $posicao->posicao }}</div>
                 @endforeach
             </td>
         </tr>

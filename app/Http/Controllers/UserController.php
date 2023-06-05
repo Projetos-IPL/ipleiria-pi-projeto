@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 
 class UserController extends Controller
@@ -175,5 +176,52 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('utilizadores.index')->with('success', 'Utilizador eliminado com sucesso!');
+    }
+
+    public function updatePublicProfile(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+
+        // validate user field
+        $validation = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:100|unique:users,email,' . $user->id,
+            'tipo_pagamento' => 'required|in:MBWAY,PAYPAL,VISA',
+            'nif' => 'required|string|max:9',
+        ]);
+
+        // validate new password and update user
+        if ($request->filled('password')) {
+            $validation = $request->validate([
+                'password' => 'required|string|min:3|confirmed',
+            ]);
+
+            if ($validation) {
+                $user->update($request->except('foto_url'));
+            } else {
+                return redirect()->back()->withErrors($validation);
+            }
+        } else {
+            $user->update($request->except('foto_url', 'password', 'tipo_pagamento', 'ref_pagamento', 'nif'));
+        }
+
+        if ($validation) {
+            $user->update($request->except('foto_url', 'password', 'tipo_pagamento', 'ref_pagamento', 'nif'));
+            $user->cliente->update($request->only('tipo_pagamento', 'ref_pagamento', 'nif'));
+        } else {
+            return redirect()->back()->withErrors($validation);
+        }
+
+        if ($request->hasFile('foto_url')) {
+            $fotoUrl = $request->file('foto_url');
+
+            $fotoUrlName = $user->id . '_' . time() . '.' . $fotoUrl->getClientOriginalExtension();
+
+            $fotoUrl->move(storage_path('app/public/fotos'), $fotoUrlName);
+            $user->foto_url = $fotoUrlName;
+            $user->save();
+        }
+
+        return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
     }
 }

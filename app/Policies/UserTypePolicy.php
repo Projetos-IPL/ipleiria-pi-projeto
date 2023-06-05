@@ -18,4 +18,9 @@ class UserTypePolicy
     {
         return $user->tipo === 'A';
     }
+
+    public function restrictUserTypeFuncionario(User $user)
+    {
+        return $user->tipo === 'F';
+    }
 }

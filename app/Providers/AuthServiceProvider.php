@@ -26,5 +26,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('restrict-user-type-administrator', [UserTypePolicy::class, 'restrictUserTypeAdministrator']);
+        Gate::define('restrict-user-type-funcionario', [UserTypePolicy::class, 'restrictUserTypeFuncionario']);
     }
 }

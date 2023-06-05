@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Sala;
 use App\Models\Filme;
+use App\Models\Lugar;
+use App\Models\Genero;
 use App\Models\Sessao;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class SessaoController extends Controller
@@ -143,5 +147,108 @@ class SessaoController extends Controller
         }
 
         return redirect()->back()->with('error', 'Ocorreu um erro ao remover a sessão!');
+    }
+
+    public function indexPublic(Request $request)
+    {
+        $currentDate = Carbon::now()->toDateString();
+        $currentHour = Carbon::now()->format('H');
+
+        $sessoes = Sessao::with('filme.genero')->whereDate('data', '>=', $currentDate)
+            ->where(function ($query) use ($currentDate, $currentHour) {
+                $query->whereDate('data', '>', $currentDate)
+                    ->orWhere(function ($query) use ($currentHour) {
+                        $query->whereRaw('HOUR(horario_inicio) >= ?', [$currentHour]);
+                    });
+            })
+            ->get();
+
+        $sessoes = $sessoes->filter(function ($sessao) use ($request) {
+            $filme = $sessao->filme;
+            $genero = $filme->genero;
+
+            $searchQuery = $request->query('search') ?? '';
+            $generoQuery = $request->query('genero') ?? '';
+
+            if ($searchQuery !== '') {
+                return stripos($filme->titulo, $searchQuery) !== false or stripos($filme->sinopse, $searchQuery) !== false;
+            }
+
+            if ($generoQuery !== '') {
+                return $genero->code == $generoQuery;
+            }
+
+            return true;
+        });
+
+        $sessoes = $sessoes->unique('filme_id');
+
+        $generos = $sessoes->map(function ($sessao) {
+            return $sessao->filme->genero;
+        })->unique('code');
+
+        return view('public::sessoes.index', compact('sessoes', 'generos'));
+    }
+
+    public function showPublic(int $id)
+    {
+        $filme = Filme::findOrFail($id);
+
+        if ($filme->trailer_url == null) {
+            $filme->trailer_url = '';
+        } else {
+            $filme->trailer_url = explode('=', $filme->trailer_url)[1];
+        }
+
+        // $filme->sessoes = $filme->sessoes()
+        //     ->orWhere('horario_inicio', '>=', date('H:i:s'))
+        //     ->where('data', '>=', date('Y-m-d'))
+        //     ->get();
+
+        $currentDate = Carbon::now()->toDateString();
+        $currentHour = Carbon::now()->format('H');
+
+        $filme->sessoes = Sessao::with('filme.genero')->where('filme_id', '=', $filme->id)->whereDate('data', '>=', $currentDate)
+            ->where(function ($query) use ($currentDate, $currentHour) {
+                $query->whereDate('data', '>', $currentDate)
+                    ->orWhere(function ($query) use ($currentHour) {
+                        $query->whereRaw('HOUR(horario_inicio) >= ?', [$currentHour]);
+                    });
+            })
+            ->get();
+
+        return view('public::sessoes.show', ['filme' => $filme]);
+    }
+
+    public function buy(int $id)
+    {
+        $sessao = Sessao::findOrFail($id);
+        $filme = $sessao->filme;
+
+        if ($filme->trailer_url == null) {
+            $filme->trailer_url = '';
+        } else {
+            $filme->trailer_url = explode('=', $filme->trailer_url)[1];
+        }
+
+        $ocupados = $sessao->bilhetes->map(function ($bilhete) {
+            return [
+                'fila' => $bilhete->lugar->fila,
+                'posicao' => $bilhete->lugar->posicao,
+            ];
+        });
+
+        if ($ocupados->count() == $sessao->sala->lugares->count()) {
+            return redirect()->back()->with('error', 'Não existem lugares disponíveis para esta sessão!');
+        }
+
+        return view('public::sessoes.buy', compact('sessao', 'filme', 'ocupados'));
+    }
+
+    public function accessControl(Request $request)
+    {
+        $sessoes = Sessao::with('filme')->whereDate('data', '=', date('Y-m-d'))->get();
+
+        return view('admin::sessoes.access-control', compact('sessoes'));
     }
 }

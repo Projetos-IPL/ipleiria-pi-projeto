@@ -11,6 +11,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             @auth
+            @if (auth()->user()->tipo == 'A')
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link {{ (str_contains(url()->current(), 'filme')) ? 'active' : '' }}"
@@ -33,6 +34,7 @@
                         href="{{ route('sessoes.index') }}">Sessões</a>
                 </li>
             </ul>
+            @endif
             @endauth
 
             <!-- Right Side Of Navbar -->
@@ -51,10 +53,12 @@
                 </li>
                 @endif
                 @else
+                @if (auth()->user()->tipo == 'A')
                 <li class="nav-item">
                     <a class="nav-link {{ (str_contains(url()->current(), 'configuracoes')) ? 'active' : '' }}"
                         href="{{ route('configuracoes.edit') }}">Configurações</a>
                 </li>
+                @endif
 
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -66,9 +70,9 @@
                         <!-- do not show for users with tipo == 'F' -->
                         @if (Auth::user()->tipo != 'F')
                         <a class="dropdown-item" href="{{ route('utilizadores.adminProfile') }}">Perfil</a>
+                        <hr class="dropdown-divider">
                         @endif
 
-                        <hr class="dropdown-divider">
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}

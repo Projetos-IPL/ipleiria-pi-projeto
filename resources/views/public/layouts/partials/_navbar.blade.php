@@ -7,9 +7,16 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Filmes em Exibição</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('index') }}">Início</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('sessoes.indexPublic') }}">Filmes em
+                        Exibição</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Contactos</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('carrinho.showCart') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        Carrinho
+                    </a>
+                </li>
             </ul>
         </div>
 

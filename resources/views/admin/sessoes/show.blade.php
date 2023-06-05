@@ -61,7 +61,6 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Recibo</th>
                                         <th scope="col">Cliente</th>
                                         <th scope="col">Lugar</th>
                                         <th scope="col">Preço com IVA</th>
@@ -73,7 +72,6 @@
                                     @foreach ($bilhetes as $bilhete)
                                     <tr>
                                         <td>{{ $bilhete->id }}</td>
-                                        <td>{{ $bilhete->recibo_id }}</td>
                                         <td>{{ $bilhete->recibo->cliente != null ?
                                             $bilhete->recibo->cliente->user->name
                                             : 'Cliente removido' }}</td>

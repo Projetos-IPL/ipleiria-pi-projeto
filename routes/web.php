@@ -9,7 +9,9 @@ use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\SessaoController;
 use App\Http\Controllers\BilheteController;
+use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\ConfiguracaoController;
+use App\Models\Sessao;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,7 @@ use App\Http\Controllers\ConfiguracaoController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,8 +40,22 @@ Route::prefix('/')->group(function () {
     })->name('index');
 
     Route::get('perfil', [UserController::class, 'showPublicProfile'])->name('utilizadores.publicProfile');
+    Route::put('perfil/{id}', [UserController::class, 'updatePublicProfile'])->name('utilizadores.updatePublicProfile');
 
-    Route::get('/bilhete/{id}/pdf', [BilheteController::class, 'showPDF'])->name('bilhetes.showPDF');
+    Route::get('bilhete/{id}/pdf', [BilheteController::class, 'showPDF'])->name('bilhetes.showPDF');
+
+    Route::get('filmes', [SessaoController::class, 'indexPublic'])->name('sessoes.indexPublic');
+    Route::get('filme/{id}', [SessaoController::class, 'showPublic'])->name('sessoes.showPublic');
+    Route::get('sessao/{id}/comprar', [SessaoController::class, 'buy'])->name('sessoes.buy');
+
+    Route::get('carrinho', [CarrinhoController::class, 'showCart'])->name('carrinho.showCart');
+    Route::post('carrinho', [CarrinhoController::class, 'addItem'])->name('carrinho.addItem');
+    Route::delete('carrinho/{id}', [CarrinhoController::class, 'removeItem'])->name('carrinho.removeItem');
+
+    Route::get('checkout', [CarrinhoController::class, 'showCheckout'])->name('carrinho.showCheckout');
+    Route::post('checkout', [CarrinhoController::class, 'checkout'])->name('carrinho.checkout');
+
+    Route::get('acesso', [SessaoController::class, 'accessControl'])->middleware('can:restrict-user-type-funcionario')->name('sessoes.accessControl');
 });
 
 /*
@@ -65,5 +82,5 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'can:restrict-user-type-
     Route::put('configuracoes', [ConfiguracaoController::class, 'update'])->name('configuracoes.update');
 });
 
-// auth routes
+// Laravel/packages routes
 Auth::routes(['verify' => true]);
