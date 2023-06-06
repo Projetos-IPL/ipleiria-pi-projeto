@@ -90,8 +90,9 @@ Route::get('/status', function () {
     $lastCommit = exec('git log -1 --pretty=format:"%h"');
 
     return response()->json([
-        'status' => 'OK',
-        'time' => time(),
+        'name' => config('app.name'),
         'commit' => $lastCommit,
+        'time' => time(),
+        'tz' => config('app.timezone'),
     ]);
 })->name('status');
