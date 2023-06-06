@@ -11,7 +11,6 @@ use App\Http\Controllers\SessaoController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\ConfiguracaoController;
-use App\Models\Sessao;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,3 +83,15 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'can:restrict-user-type-
 
 // Laravel/packages routes
 Auth::routes(['verify' => true]);
+
+// route used for uptime detection mechanisms
+Route::get('/status', function () {
+    // get last git commit hash
+    $lastCommit = exec('git log -1 --pretty=format:"%h"');
+
+    return response()->json([
+        'status' => 'OK',
+        'time' => time(),
+        'commit' => $lastCommit,
+    ]);
+})->name('status');
