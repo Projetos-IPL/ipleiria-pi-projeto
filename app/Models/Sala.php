@@ -27,17 +27,6 @@ class Sala extends Model
         return $this->lugares()->select('fila')->distinct()->orderBy('fila', 'DESC')->get();
     }
 
-    public function isLugarFree(int $fila, int $posicao, int $sessaoId)
-    {
-        $lugar = $this->lugares()->where('fila', $fila)->where('posicao', $posicao)->first();
-
-        if ($lugar->isOcupado($sessaoId)) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function lugares()
     {
         return $this->hasMany(Lugar::class);

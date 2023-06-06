@@ -34,11 +34,14 @@
         </div>
         @endif
 
-        <h2 class="mb-4">Carrinho</h2>
+        <h2 class="mb-4">
+            <i class="fa-solid fa-cart-shopping me-1"></i>
+            Carrinho
+        </h2>
 
         @if ($cart->isEmpty())
         <div class="alert alert-secondary">
-            O carrinho está vazio. <a href="{{ route('sessoes.indexPublic') }}">Pesquise por sessões</a>.
+            O carrinho está vazio. <a href="{{ route('sessoes.indexPublic') }}">Veja as sessões em cartaz.</a>
         </div>
         @else
         <table class="table">

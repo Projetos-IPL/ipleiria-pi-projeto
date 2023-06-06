@@ -80,8 +80,14 @@
             </td>
             <td class="text-center">
                 @foreach ($sala->getPosicoesForFila($fila->fila) as $posicao)
+                @php
+                $ocupado = ($ocupados->contains(function ($value, $key) use ($fila, $posicao) {
+                return $value->fila == $fila->fila && $value->posicao == $posicao->posicao;
+                }));
+                @endphp
+
                 <div onclick="setLugarAtivo(this)" data-fila="{{ $fila->fila }}" data-posicao="{{ $posicao->posicao }}"
-                    class="posicao p-2 {{ $sala->isLugarFree(intval($fila->fila), intval($posicao->posicao), $sessao->id) ? 'bg-danger' : '' }}">
+                    class="posicao p-2 {{ $ocupado ? 'bg-danger' : '' }}">
                     {{ $fila->fila }}{{ $posicao->posicao }}
                 </div>
                 @endforeach

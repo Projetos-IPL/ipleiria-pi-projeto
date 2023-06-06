@@ -1,19 +1,30 @@
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-        <a class="navbar-brand" href="/">Cine<span class="fw-bold">Magic</span></a>
+        <a class="navbar-brand" href="/">
+            Cine<span class="fw-bold">Magic</span>
+            <small class="ms-2 fw-normal h6">O melhor do cinema, mais perto de si!</small>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{{ route('index') }}">Início</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('sessoes.indexPublic') }}">Filmes em
-                        Exibição</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contactos</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('index') }}">
+                        <i class="fas fa-home me-1"></i>
+                        Início
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('sessoes.indexPublic') }}">
+                        <i class="fas fa-film me-1"></i>
+                        Sessões
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('carrinho.showCart') }}">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="fas fa-shopping-cart me-1"></i>
                         Carrinho
                     </a>
                 </li>

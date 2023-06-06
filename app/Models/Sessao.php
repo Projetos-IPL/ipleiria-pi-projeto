@@ -18,13 +18,19 @@ class Sessao extends Model
         'horario_inicio',
     ];
 
-    // check if sessao is full
+    // check if sessao is full, by getting the number of lugares sold in the bilhetes for this sessao
+    // then compare to the max number of lugares in the sala
+    // make it optimized in regard of the number of queries
     public function isFull()
     {
-        $bilhetesVendidos = $this->bilhetes->count();
-        $lotacao = $this->sala->lugares->count();
+        $bilhetes = $this->bilhetes;
+        $lugaresSold = 0;
 
-        echo $bilhetesVendidos . ' ' . $lotacao;
+        foreach ($bilhetes as $bilhete) {
+            $lugaresSold += $bilhete->lugar->id;
+        }
+
+        return $lugaresSold === $this->sala->numero_lugares ? 'Sim' : 'Não';
     }
 
     public function filme()

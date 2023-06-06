@@ -200,11 +200,6 @@ class SessaoController extends Controller
             $filme->trailer_url = explode('=', $filme->trailer_url)[1];
         }
 
-        // $filme->sessoes = $filme->sessoes()
-        //     ->orWhere('horario_inicio', '>=', date('H:i:s'))
-        //     ->where('data', '>=', date('Y-m-d'))
-        //     ->get();
-
         $currentDate = Carbon::now()->toDateString();
         $currentHour = Carbon::now()->format('H');
 
@@ -231,16 +226,14 @@ class SessaoController extends Controller
             $filme->trailer_url = explode('=', $filme->trailer_url)[1];
         }
 
-        $ocupados = $sessao->bilhetes->map(function ($bilhete) {
-            return [
-                'fila' => $bilhete->lugar->fila,
-                'posicao' => $bilhete->lugar->posicao,
-            ];
-        });
+        $bilhetes = $sessao->bilhetes;
+        $ocupados = [];
 
-        if ($ocupados->count() == $sessao->sala->lugares->count()) {
-            return redirect()->back()->with('error', 'Não existem lugares disponíveis para esta sessão!');
+        foreach ($bilhetes as $bilhete) {
+            $ocupados[] = $bilhete->lugar_id;
         }
+
+        $ocupados = Lugar::whereIn('id', $ocupados)->get();
 
         return view('public::sessoes.buy', compact('sessao', 'filme', 'ocupados'));
     }

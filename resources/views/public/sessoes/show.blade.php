@@ -22,34 +22,42 @@
 <hr class="my-4" />
 
 <div class="row gx-4 gx-lg-5 align-items-center my-5">
-    <div class="col-md-4">
+    <div class="col">
         <h3 class="mb-4">Sessões disponíveis</h3>
-        <div class="list-group">
+        <div class="row">
             @foreach($filme->sessoes as $sessao)
-            <div class="list-group-item">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">
-                        {{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }} às
-                        {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}
-                    </h5>
-                    <div>
-                        @php
-                        echo json_encode($sessao->isFull());
-                        @endphp
-                        @if ($sessao->isFull())
-                        <span class="badge bg-danger">Cheio</span>
-                        @else
-                        <span class="badge bg-success">Disponível</span>
-                        @endif
+            <div class="col-md-3 mb-5">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">Sessão #{{ $sessao->id }}</div>
+                            <div class="col">
+                                <span class="badge bg-primary rounded-pill">
+                                    {{ $sessao->sala->nome }}
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="card-body">
+                        <div>
+                            <span class="fw-bold">Horário:</span>
+                            {{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }} às
+                            {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}
+                        </div>
+                        <div>
+                            <span class="fw-bld">Lotação:</span>
+                            <span class="badge text-bg-success">Livre</span>
+                            <span class="badge text-bg-danger">Ocupado</span>
+                        </div>
 
-                <small>Sala {{ $sessao->sala->nome }} ({{ $sessao->sala->id }})</small>
+                        <p>Cheio? {{ $sessao->isFull() }}</p>
 
-                <div class="mt-3 mb-2">
-                    <a class="btn btn-sm btn-danger" href="{{ route('sessoes.buy', $sessao->id) }}">
-                        <i class="fa-solid fa-ticket me-1"></i> Comprar
-                    </a>
+                        <div class="mt-4">
+                            <a href="{{ route('sessoes.buy', $sessao->id) }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fa-solid fa-ticket me-2"></i> Comprar Bilhete
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             @endforeach

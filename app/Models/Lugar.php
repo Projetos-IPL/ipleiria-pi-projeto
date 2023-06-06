@@ -19,19 +19,6 @@ class Lugar extends Model
         'posicao',
     ];
 
-    public function isOcupado(int $sessaoId): bool
-    {
-        $sessao = Sessao::find($sessaoId);
-
-        $bilhetes = $sessao->bilhetes()->where('lugar_id', $this->id)->get();
-
-        if ($bilhetes->isEmpty()) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function sala()
     {
         return $this->belongsTo(Sala::class);

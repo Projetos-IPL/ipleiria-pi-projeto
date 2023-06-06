@@ -46,11 +46,11 @@
     <div class="col-md-3 my-4">
         <a href="{{ route('sessoes.showPublic', $sessao->filme->id) }}">
             <img src="{{ $sessao->filme->getCartazPath() }}" alt="{{ $sessao->filme->titulo }}"
-                class="img-fluid rounded">
+                class="img-fluid rounded shadow">
         </a>
 
         <div class="text-center mt-3">
-            <h5>{{ $sessao->filme->titulo }}</h5>
+            <h4>{{ $sessao->filme->titulo }}</h4>
             <span class="badge rounded-pill text-bg-secondary">{{ $sessao->filme->genero->nome }}</span>
         </div>
     </div>
