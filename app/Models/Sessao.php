@@ -18,6 +18,15 @@ class Sessao extends Model
         'horario_inicio',
     ];
 
+    // check if sessao is full
+    public function isFull()
+    {
+        $bilhetesVendidos = $this->bilhetes->count();
+        $lotacao = $this->sala->lugares->count();
+
+        echo $bilhetesVendidos . ' ' . $lotacao;
+    }
+
     public function filme()
     {
         return $this->belongsTo(Filme::class, 'filme_id');

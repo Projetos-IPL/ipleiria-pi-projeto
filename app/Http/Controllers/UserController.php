@@ -187,7 +187,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:100|unique:users,email,' . $user->id,
             'tipo_pagamento' => 'required|in:MBWAY,PAYPAL,VISA',
-            'nif' => 'required|string|max:9',
+            'nif' => 'nullable|string|max:9',
         ]);
 
         // validate new password and update user

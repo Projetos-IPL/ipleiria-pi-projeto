@@ -38,7 +38,7 @@
 
         @if ($cart->isEmpty())
         <div class="alert alert-secondary">
-            O seu carrinho está vazio.
+            O carrinho está vazio. <a href="{{ route('sessoes.indexPublic') }}">Pesquise por sessões</a>.
         </div>
         @else
         <table class="table">

@@ -69,6 +69,7 @@
                                             </div>
                                         </div>
 
+                                        @if ($user->tipo != 'F')
                                         <div class="row mb-3">
                                             <div class="col">
                                                 <div>
@@ -124,6 +125,7 @@
                                                 @endif
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="row mb-4">

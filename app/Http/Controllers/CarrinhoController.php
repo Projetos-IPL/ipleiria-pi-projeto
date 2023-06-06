@@ -120,6 +120,8 @@ class CarrinhoController extends Controller
                 break;
         }
 
+        dd($validPayment);
+
         if (!$validPayment) {
             return redirect()->back()->with('error', 'Pagamento inválido, por favor verifique os dados de pagamento!');
         }

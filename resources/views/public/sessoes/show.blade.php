@@ -33,9 +33,17 @@
                         {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}
                     </h5>
                     <div>
-                        <span class="badge text-bg-success"></span>
+                        @php
+                        echo json_encode($sessao->isFull());
+                        @endphp
+                        @if ($sessao->isFull())
+                        <span class="badge bg-danger">Cheio</span>
+                        @else
+                        <span class="badge bg-success">Disponível</span>
+                        @endif
                     </div>
                 </div>
+
                 <small>Sala {{ $sessao->sala->nome }} ({{ $sessao->sala->id }})</small>
 
                 <div class="mt-3 mb-2">

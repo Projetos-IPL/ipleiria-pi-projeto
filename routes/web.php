@@ -11,6 +11,7 @@ use App\Http\Controllers\SessaoController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\ConfiguracaoController;
+use App\Http\Controllers\PublicSiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,9 +35,7 @@ use App\Http\Controllers\ConfiguracaoController;
 */
 
 Route::prefix('/')->group(function () {
-    Route::get('/', function () {
-        return view('public::index');
-    })->name('index');
+    Route::get('/', [PublicSiteController::class, 'index'])->name('index');
 
     Route::get('perfil', [UserController::class, 'showPublicProfile'])->name('utilizadores.publicProfile');
     Route::put('perfil/{id}', [UserController::class, 'updatePublicProfile'])->name('utilizadores.updatePublicProfile');
@@ -51,10 +50,10 @@ Route::prefix('/')->group(function () {
     Route::post('carrinho', [CarrinhoController::class, 'addItem'])->name('carrinho.addItem');
     Route::delete('carrinho/{id}', [CarrinhoController::class, 'removeItem'])->name('carrinho.removeItem');
 
-    Route::get('checkout', [CarrinhoController::class, 'showCheckout'])->name('carrinho.showCheckout');
-    Route::post('checkout', [CarrinhoController::class, 'checkout'])->name('carrinho.checkout');
+    Route::get('checkout', [CarrinhoController::class, 'showCheckout'])->middleware('auth')->name('carrinho.showCheckout');
+    Route::post('checkout', [CarrinhoController::class, 'checkout'])->middleware('auth')->name('carrinho.checkout');
 
-    Route::get('acesso', [SessaoController::class, 'accessControl'])->middleware('can:restrict-user-type-funcionario')->name('sessoes.accessControl');
+    Route::get('acesso', [SessaoController::class, 'accessControl'])->middleware(['auth', 'can:restrict-user-type-funcionario'])->name('sessoes.accessControl');
 });
 
 /*

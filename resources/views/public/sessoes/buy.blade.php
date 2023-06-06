@@ -18,8 +18,8 @@
         <form method="post" action="{{ route('carrinho.addItem') }}">
             @csrf
 
-            <h4 class="mb-3">1. Sessão</h4>
-            <hr class="my-4">
+            <h4>1. Sessão</h4>
+            <hr class="mt-0 mb-4">
 
             <div class="row g-3">
                 <div class="col-sm-3">
@@ -55,8 +55,8 @@
                 </div>
             </div>
 
-            <h4 class="mb-3 mt-5">2. Seleção de lugares</h4>
-            <hr class="my-4">
+            <h4 class="mt-5">2. Seleção de lugares</h4>
+            <hr class="mt-0 mb-4">
 
             <p>
                 Para selecionar um lugar, clique no lugar pretendido.
