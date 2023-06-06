@@ -85,7 +85,6 @@ Auth::routes(['verify' => true]);
 
 // route used for uptime detection mechanisms
 Route::get('/status', function () {
-    // get last git commit hash
     $lastCommit = exec('git log -1 --pretty=format:"%h"');
 
     return response()->json([
