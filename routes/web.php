@@ -37,9 +37,6 @@ use App\Http\Controllers\PublicSiteController;
 Route::prefix('/')->group(function () {
     Route::get('/', [PublicSiteController::class, 'index'])->name('index');
 
-    Route::get('perfil', [UserController::class, 'showPublicProfile'])->name('utilizadores.publicProfile');
-    Route::put('perfil/{id}', [UserController::class, 'updatePublicProfile'])->name('utilizadores.updatePublicProfile');
-
     Route::get('bilhete/{id}/pdf', [BilheteController::class, 'showPDF'])->name('bilhetes.showPDF');
 
     Route::get('filmes', [SessaoController::class, 'indexPublic'])->name('sessoes.indexPublic');
@@ -49,12 +46,14 @@ Route::prefix('/')->group(function () {
     Route::get('carrinho', [CarrinhoController::class, 'showCart'])->name('carrinho.showCart');
     Route::post('carrinho', [CarrinhoController::class, 'addItem'])->name('carrinho.addItem');
     Route::delete('carrinho/{id}', [CarrinhoController::class, 'removeItem'])->name('carrinho.removeItem');
-
-    Route::get('checkout', [CarrinhoController::class, 'showCheckout'])->middleware('auth')->name('carrinho.showCheckout');
-    Route::post('checkout', [CarrinhoController::class, 'checkout'])->middleware('auth')->name('carrinho.checkout');
-
-    Route::get('acesso', [SessaoController::class, 'accessControl'])->middleware(['auth', 'can:restrict-user-type-funcionario'])->name('sessoes.accessControl');
 });
+
+Route::get('perfil', [UserController::class, 'showPublicProfile'])->middleware(['auth', 'verified'])->name('utilizadores.publicProfile');
+Route::put('perfil/{id}', [UserController::class, 'updatePublicProfile'])->middleware(['auth', 'verified'])->name('utilizadores.updatePublicProfile');
+Route::get('checkout', [CarrinhoController::class, 'showCheckout'])->middleware(['auth', 'verified'])->name('carrinho.showCheckout');
+Route::post('checkout', [CarrinhoController::class, 'checkout'])->middleware(['auth', 'verified'])->name('carrinho.checkout');
+
+Route::get('acesso', [SessaoController::class, 'accessControl'])->middleware(['auth', 'can:restrict-user-type-funcionario'])->name('sessoes.accessControl');
 
 /*
 |--------------------------------------------------------------------------
