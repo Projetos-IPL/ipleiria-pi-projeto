@@ -76,6 +76,7 @@
                                                     <label for="nif" class="form-label">NIF</label>
                                                     <input type="text" class="form-control" id="nif" name="nif"
                                                         value="{{ $user->cliente->nif ?? '' }}">
+                                                    @dd($user->cliente)
                                                 </div>
                                             </div>
                                             <div class="col">
