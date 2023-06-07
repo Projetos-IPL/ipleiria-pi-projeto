@@ -11,10 +11,10 @@
 
     .posicao {
         background-color: #000;
-        border-radius: 5px;
+        border-radius: 20px;
         color: #fff;
         display: inline-block;
-        width: 50px;
+        width: 45px;
         text-align: center;
         cursor: pointer;
     }

@@ -60,9 +60,12 @@
                 <tr>
                     <td>
                         <p><span>Filme:</span> {{ $sessao->filme->titulo }}</p>
-                        <p><span>Data e Hora:</span> {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}
-                            - {{
-                            \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }}</p>
+                        <p>
+                            <span>
+                                Data e Hora:</span>
+                            {{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }} -
+                            {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}
+                        </p>
                         <p><span>Sala:</span> {{ $sessao->sala->nome }} ({{ $sessao->sala->id }})</p>
                         <small>#{{ $sessao->id }}</small>
                     </td>
@@ -81,7 +84,7 @@
                         <form action="{{ route('carrinho.removeItem', $sessao->id) }}" method="post">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-sm btn-danger">
                                 <i class="fa-solid fa-trash me-1"></i>
                                 Remover
                             </button>

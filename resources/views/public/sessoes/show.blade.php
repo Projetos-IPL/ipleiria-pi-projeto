@@ -22,40 +22,39 @@
 <hr class="my-4" />
 
 <div class="row gx-4 gx-lg-5 align-items-center my-5">
+    <h3 class="mb-5">Sessões disponíveis ({{ $filme->sessoes->count() }})</h3>
     <div class="col">
-        <h3 class="mb-4">Sessões disponíveis</h3>
-        <div class="row">
+        <div class="row text-center">
             @foreach($filme->sessoes as $sessao)
             <div class="col-md-3 mb-5">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">Sessão #{{ $sessao->id }}</div>
-                            <div class="col">
-                                <span class="badge bg-primary rounded-pill">
-                                    {{ $sessao->sala->nome }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="card-body">
-                        <div>
-                            <span class="fw-bold">Horário:</span>
-                            {{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }} às
-                            {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}
+                        <div class="mb-3">
+                            <h3>{{ \Carbon\Carbon::parse($sessao->data)->format('d M Y') }}</h3>
+                            <h4>{{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}</h4>
                         </div>
                         <div>
-                            <span class="fw-bld">Lotação:</span>
-                            <span class="badge text-bg-success">Livre</span>
-                            <span class="badge text-bg-danger">Ocupado</span>
+                            @if ($sessao->isFull())
+                            <h5 class="mb-0"><span class="badge text-bg-danger pill">Ocupado</span></h5>
+                            @else
+                            <h5 class="mb-0"><span class="badge text-bg-success pill">Livre</span></h5>
+                            @endif
                         </div>
 
-                        <p>Cheio? {{ $sessao->isFull() }}</p>
-
+                        @if (!$sessao->isFull())
                         <div class="mt-4">
                             <a href="{{ route('sessoes.buy', $sessao->id) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa-solid fa-ticket me-2"></i> Comprar Bilhete
                             </a>
+                        </div>
+                        @endif
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col">
+                                Sala {{ $sessao->sala->nome }} ({{ $sessao->sala->id }})
+                            </div>
                         </div>
                     </div>
                 </div>

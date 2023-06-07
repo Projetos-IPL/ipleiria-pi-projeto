@@ -11,10 +11,10 @@
 
     .posicao {
         background-color: #000;
-        border-radius: 5px;
+        border-radius: 20px;
         color: #fff;
         display: inline-block;
-        width: 40px;
+        width: 45px;
         text-align: center;
         cursor: pointer;
     }
@@ -87,9 +87,7 @@
                 @endphp
 
                 <div onclick="setLugarAtivo(this)" data-fila="{{ $fila->fila }}" data-posicao="{{ $posicao->posicao }}"
-                    class="posicao p-2 {{ $ocupado ? 'bg-danger' : '' }}">
-                    {{ $fila->fila }}{{ $posicao->posicao }}
-                </div>
+                    class="posicao p-2 {{ $ocupado ? 'bg-danger' : '' }}">{{ $fila->fila }}{{ $posicao->posicao }}</div>
                 @endforeach
             </td>
         </tr>

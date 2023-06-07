@@ -151,6 +151,8 @@
 
                             <p>{{ $totalRevenueValueBeginning }} - total dos bilhetes até à data</p>
                             <p>{{ $totalRevenueValueFiveDays }} - total dos bilhetes dos últimos 5 dias</p>
+
+                            {!! $chart->container() !!}
                         </div>
                     </div>
                 </div>
@@ -167,4 +169,7 @@
         </div>
     </div>
 </div>
+
+<script src="{{ $chart->cdn() }}"></script>
+{!! $chart->script() !!}
 @endsection
