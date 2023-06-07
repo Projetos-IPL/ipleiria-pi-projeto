@@ -75,7 +75,7 @@
                                                 <div>
                                                     <label for="nif" class="form-label">NIF</label>
                                                     <input type="text" class="form-control" id="nif" name="nif"
-                                                        value="{{ $user->cliente->nif? }}">
+                                                        value="{{ $user->cliente->nif ?? '' }}">
                                                 </div>
                                             </div>
                                             <div class="col">
