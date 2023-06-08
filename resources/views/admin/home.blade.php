@@ -153,12 +153,40 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <h3>{{ $totalRevenueValueFiveDays }}</h3>
+                                    <h3>{{ number_format($totalRevenueValueFiveDays, 2, ',', '.') }} €</h3>
                                     <p>Últimos 5 dias</p>
                                 </div>
                                 <div class="col">
-                                    <h3>{{ $totalRevenueValueThirtyDays }}</h3>
+                                    <h3>{{ number_format($totalRevenueValueThirtyDays, 2, ',', '.') }} €</h3>
                                     <p>Últimos 30 dias</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4 mt-4">
+                    <div class="card text-center">
+                        <div class="card-header">Salas</div>
+
+                        <div class="card-body">
+                            <div class="mt-2">
+                                <h1 class="display-6">{{ $totalSalas }}</h1>
+                                <h4>Salas</h4>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col">
+                                    <h3>{{ $mostFrequentSalaData["nome"] }}</h3>
+                                    <p>Sala mais popular</p>
+                                </div>
+                                <div class="col">
+                                    <h3>{{ $leastFrequentSalaData["nome"] }}</h3>
+                                    <p>Sala menos popular</p>
                                 </div>
                             </div>
                         </div>

@@ -75,10 +75,19 @@ class SessaoController extends Controller
             'filme_id' => 'required|exists:filmes,id',
             'sala_id' => 'required|exists:salas,id',
             'data' => 'required|date',
-            'horario_inicio' => 'required|date_format:H:i',
+            'horario_inicio' => 'required',
         ]);
 
         if ($validation) {
+            $sessao = Sessao::where('sala_id', $request->sala_id)
+                ->where('data', $request->data)
+                ->where('horario_inicio', $request->horario_inicio)
+                ->first();
+
+            if ($sessao) {
+                return redirect()->back()->with('error', 'Já existe uma sessão para a mesma sala, data e horário!');
+            }
+
             $sessao = new Sessao();
             $sessao->filme_id = $request->filme_id;
             $sessao->sala_id = $request->sala_id;
@@ -113,7 +122,7 @@ class SessaoController extends Controller
         $sessao = Sessao::findOrFail($id);
 
         if ($sessao->bilhetes->count() > 0) {
-            return redirect()->back()->with('error', 'Não é possível remover uma sessão com bilhetes associados!');
+            return redirect()->back()->with('error', 'Não é possível editar uma sessão com bilhetes associados!');
         }
 
         $filmes = Filme::all()->sortBy('titulo')->whereNull('deleted_at');
@@ -125,9 +134,30 @@ class SessaoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sessao $sessao)
+    public function update(Request $request, int $id)
     {
-        //
+        $sessao = Sessao::findOrFail($id);
+
+        $validation = $request->validate([
+            'filme_id' => 'required|exists:filmes,id',
+            'sala_id' => 'required|exists:salas,id',
+            'data' => 'required|date',
+            'horario_inicio' => 'required',
+        ]);
+
+        if ($validation) {
+            $sessao->filme_id = $request->filme_id;
+            $sessao->sala_id = $request->sala_id;
+            $sessao->data = $request->data;
+            $sessao->horario_inicio = $request->horario_inicio;
+            $sessao->save();
+
+            return redirect()->route('sessoes.index')->with('success', 'Sessão editada com sucesso!');
+        } else {
+            return redirect()->back()->withErrors($validation);
+        }
+
+        return redirect()->back()->with('error', 'Ocorreu um erro ao editar a sessão!');
     }
 
     /**

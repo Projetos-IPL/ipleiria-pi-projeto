@@ -95,6 +95,10 @@
         <form method="post" action="{{ route('carrinho.checkout') }}">
             @csrf
 
+            <input type="hidden" name="preco_total_sem_iva" value="{{ $valorBilhete * $quantidadeBilhetes }}">
+            <input type="hidden" name="percentagem_iva" value="{{ $valorIva }}">
+            <input type="hidden" name="preco_total_com_iva" value={{ $valorTotal }}>
+
             <h2 class="mb-3">Dados do Cliente</h2>
 
             <div class="mb-3">
@@ -107,7 +111,7 @@
             </div>
             <div class="mb-3">
                 <label for="nif" class="form-label">NIF</label>
-                <input type="text" class="form-control" name="nif" readonly value="{{ auth()->user()->nif }}">
+                <input type="text" class="form-control" name="nif" readonly value="{{ auth()->user()->cliente->nif }}">
             </div>
 
 
@@ -122,14 +126,14 @@
                     <div class="mb-3">
                         <label for="numero_cartao" class="form-label">Número de Cartão</label>
                         <input type="text" class="form-control" name="numero_cartao" placeholder="1111111111111111"
-                            value="{{ auth()->user()->cliente->ref_pagamento }}">
+                            value="{{ auth()->user()->cliente->ref_pagamento }}" readonly>
                         <div class="form-text">16 digítos, localizado na frente do cartão</div>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="mb-3">
                         <label for="cvc" class="form-label">CVC</label>
-                        <input type="text" class="form-control" name="cvc" placeholder="123">
+                        <input type="text" class="form-control" name="cvc" placeholder="123" maxlength="3">
                         <div class="form-text">3 digítos, localizado no verso do cartão</div>
                     </div>
                 </div>

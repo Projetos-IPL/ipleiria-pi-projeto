@@ -53,6 +53,8 @@ Route::put('perfil/{id}', [UserController::class, 'updatePublicProfile'])->middl
 Route::get('checkout', [CarrinhoController::class, 'showCheckout'])->middleware(['auth', 'verified'])->name('carrinho.showCheckout');
 Route::post('checkout', [CarrinhoController::class, 'checkout'])->middleware(['auth', 'verified'])->name('carrinho.checkout');
 
+Route::get('dashboard', [UserController::class, 'showPublicDashboard'])->middleware(['auth', 'verified'])->name('utilizadores.showPublicDashboard');
+
 Route::get('acesso', [SessaoController::class, 'accessControl'])->middleware(['auth', 'can:restrict-user-type-funcionario'])->name('sessoes.accessControl');
 
 /*

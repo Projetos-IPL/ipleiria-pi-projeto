@@ -44,6 +44,13 @@
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @if (auth()->user()->tipo == 'C')
+                <li>
+                    <a class="dropdown-item" href="{{ route('utilizadores.showPublicDashboard') }}">Dashboard</a>
+                </li>
+                <hr class="dropdown-divider">
+                @endif
+
                 @if (auth()->user()->tipo == 'A')
                 <li>
                     <a class="dropdown-item" href="{{ route('home') }}">Administração</a>

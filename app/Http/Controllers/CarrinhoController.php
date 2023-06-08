@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendBilheteEmail;
 use App\Models\Lugar;
 use App\Models\Bilhete;
 use App\Services\Payment;
 use App\Models\Configuracao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CarrinhoController extends Controller
 {
@@ -34,8 +36,6 @@ class CarrinhoController extends Controller
             $lugaresIds[] = [$lugar->id, $lugar->fila, $lugar->posicao];
         }
 
-        // add item to cart, but allow multiple items to be in the user cart
-        // associate the cart array with the authenticated user
         $cart = session()->get('cart', []);
         $cart[] = [
             'sessao_id' => $sessao,
@@ -49,10 +49,8 @@ class CarrinhoController extends Controller
 
     public function showCart()
     {
-        // get cart from session that has user attribute equal to the authenticated user
         $cart = session()->get('cart', []);
 
-        // convert the array into a collection
         $cart = collect($cart);
 
         return view('public::carrinho.index', compact('cart'));
@@ -67,7 +65,6 @@ class CarrinhoController extends Controller
         $cart = session()->get('cart', []);
         $cart = collect($cart);
 
-        // get quantity of bilhetes in the cart
         $quantidadeBilhetes = $cart->sum(function ($item) {
             return count($item['lugares']);
         });
@@ -104,58 +101,76 @@ class CarrinhoController extends Controller
         $cart = session()->get('cart', []);
         $cart = collect($cart);
 
-        // get user in request
         $user = $request->user();
+
+        $ref_pagamento = null;
+        switch ($user->cliente->tipo_pagamento) {
+            case 'VISA':
+            case 'MBWAY':
+                $ref_pagamento = $user->cliente->ref_pagamento;
+                break;
+            case 'PAYPAL':
+                $ref_pagamento = $user->email;
+                break;
+            default:
+                $ref_pagamento = $user->cliente->ref_pagamento;
+                break;
+        }
 
         $validPayment = false;
         switch ($user->cliente->tipo_pagamento) {
             case 'MBWAY':
-                $validPayment = Payment::payWithMBway($request->numero_telemovel);
+                $validPayment = Payment::payWithMBway($ref_pagamento);
                 break;
             case 'VISA':
-                $validPayment = Payment::payWithVisa($request->numero_cartao, $request->cvc);
+                $validPayment = Payment::payWithVisa($ref_pagamento, $request->cvc);
                 break;
             case 'PAYPAL':
                 $validPayment = Payment::payWithPaypal($user->email);
                 break;
         }
 
-        dd($validPayment);
-
         if (!$validPayment) {
             return redirect()->back()->with('error', 'Pagamento inválido, por favor verifique os dados de pagamento!');
         }
 
-        // create a new bilhete for each item in the cart
+        $recibo = $user->cliente->recibo()->create([
+            'cliente_id' => $user->cliente->id,
+            'data' => now()->toDateString(),
+            'preco_total_sem_iva' => $request->preco_total_sem_iva,
+            'iva' => $request->percentagem_iva,
+            'preco_total_com_iva' => $request->preco_total_com_iva,
+            'nif' => $user->cliente->nif ?? null,
+            'nome_cliente' => $user->name,
+            'tipo_pagamento' => $user->cliente->tipo_pagamento,
+            'ref_pagamento' => $ref_pagamento,
+            'recibo_pdf_url' => '#'
+        ]);
+
+        // TODO enviar recibo
+
+        $precoBilhete = Configuracao::first()->preco_bilhete_sem_iva;
+        $bilhetes = [];
+
         foreach ($cart as $item) {
             $sessao = $item['sessao_id'];
-            $sala = $item['sala_id'];
             $lugares = $item['lugares'];
-
-            dd($item);
 
             foreach ($lugares as $lugar) {
                 $bilhete = new Bilhete();
                 $bilhete->sessao_id = $sessao;
-                $bilhete->sala_id = $sala;
                 $bilhete->lugar_id = $lugar[0];
+                $bilhete->recibo_id = $recibo->id;
+                $bilhete->cliente_id = $user->cliente->id;
+                $bilhete->preco_sem_iva = $precoBilhete;
                 $bilhete->save();
+
+                $bilhetes[] = $bilhete;
             }
         }
 
-        // create a new recibo for the user
-        $recibo = $user->recibos()->create([
-            'valor' => $request->valor_total,
-            'data' => now(),
-        ]);
+        Mail::to($user->email)->send(new SendBilheteEmail($bilhetes));
 
-        // associate the bilhetes with the recibo
-        foreach ($recibo->bilhetes as $bilhete) {
-            $bilhete->recibo_id = $recibo->id;
-            $bilhete->save();
-        }
-
-        // clear the cart
         session()->forget('cart');
 
         return redirect()->route('carrinho.showCart')->with('success', 'Compra efetuada com sucesso!');

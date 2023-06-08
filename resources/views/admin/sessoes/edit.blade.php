@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-10">
             <div class="mb-4">
-                <h2><i class="fa fa-clapperboard me-3"></i>Nova Sessão</h2>
+                <h2><i class="fa fa-clapperboard me-3"></i>Sessão #{{ $sessao->id }}</h2>
             </div>
 
             @if($errors->any())
@@ -19,40 +19,32 @@
             </div>
             @endif
 
-            @if (session('error'))
-            <div class="alert alert-danger mb-4">
-                {{ session('error') }}
-            </div>
-            @endif
-
-            <form method="post" action="{{ route('sessoes.store') }}">
+            <form method="post" action="{{ route('sessoes.update', $sessao->id) }}">
                 @csrf
+                @method('put')
 
                 <div class="card">
-                    <div class="card-header">Criar sessão</div>
+                    <div class="card-header">Editar sessão</div>
                     <div class="card-body">
                         <div class="row mb-4">
                             <div class="col-8">
                                 <div class="row mb-3">
                                     <div class="col">
                                         <label for="filme_id" class="form-label">Filme*</label>
-                                        <select name="filme_id" id="filme_id" class="form-select">
-                                            <option value="">-- Escolha um filme --</option>
-                                            @foreach ($filmes as $filme)
-                                            <option {{ old('filme_id')==$filme->id ? 'selected' : '' }}
-                                                value="{{ $filme->id }}">{{ $filme->titulo }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" class="form-control" name="filme_id" id="filme_id"
+                                            value="{{ $sessao->filme->titulo }}" readonly>
+                                        <input type="hidden" name="filme_id" value="{{ $sessao->filme->id }}">
                                     </div>
                                     <div class="col">
                                         <label for="sala_id" class="form-label">Sala*</label>
-                                        <select name="sala_id" id="sala_id" class="form-select">
+                                        <select name="sala_id" id="sala_id" class="form-select" disabled>
                                             <option value="">-- Escolha uma sala --</option>
                                             @foreach ($salas as $sala)
-                                            <option {{ old('sala_id')==$sala->id ? 'selected' : '' }}
+                                            <option {{ $sessao->sala_id==$sala->id ? 'selected' : '' }}
                                                 value="{{ $sala->id }}">{{ $sala->nome }}</option>
                                             @endforeach
                                         </select>
+                                        <input type="hidden" name="sala_id" value="{{ $sessao->sala->id }}">
                                     </div>
                                 </div>
 
@@ -60,19 +52,19 @@
                                     <div class="col">
                                         <label for="data" class="form-label">Data*</label>
                                         <input type="text" name="data" id="data" class="form-control"
-                                            value="{{ old('data') }}">
+                                            value="{{ $sessao->data }}">
                                         <div class="form-text">Data no formato YYYY-MM-DD.</div>
                                     </div>
                                     <div class="col">
                                         <label for="horario_inicio" class="form-label">Hora*</label>
                                         <input type="time" name="horario_inicio" id="horario_inicio"
-                                            class="form-control" value="{{ old('horario_inicio') }}">
+                                            class="form-control" value="{{ $sessao->horario_inicio }}">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-4">
-                                <img id="cartaz" src="/img/cartaz_default.png" class="img-fluid ms-5"
+                                <img id="cartaz" src="{{ $sessao->filme->getCartazPath() }}" class="img-fluid ms-5"
                                     style="max-width: 250px">
                             </div>
                         </div>
@@ -96,20 +88,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script type="module">
-    $('#filme_id').on('change', function() {
-        var filme_id = $(this).val();
-
-        $.ajax({
-            url: `/api/filmes/${filme_id}/cartaz`,
-            type: "GET",
-            success: function(data) {
-                $('#cartaz').attr('src', data.cartaz_url);
-            }
-        });
-    });
-</script>
 @endsection

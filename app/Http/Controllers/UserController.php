@@ -225,4 +225,32 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
     }
+
+    public function showPublicDashboard()
+    {
+        $user = auth()->user();
+
+        $bilhetes = $user->cliente->bilhete()
+            ->with('lugar', 'sessao')
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+
+        $totalBilhetes = $user->cliente->bilhete->sum(function ($bilhete) {
+            return $bilhete->getPrecoComIvaRaw();
+        });
+
+        $totalBilhetesCount = $user->cliente->bilhete->count();
+
+        $bilhetesUsados = $user->cliente->bilhete->where('estado', 'usado')->count();
+        $bilhetesNaoUsados = $user->cliente->bilhete->where('estado', 'não usado')->count();
+
+        $percentagemUsados = ($bilhetesUsados * 100) / $totalBilhetesCount;
+        $percentagemNaoUsados = ($bilhetesNaoUsados * 100) / $totalBilhetesCount;
+
+        return view('public::users.dashboard', compact('bilhetes'))->with('user', $user)
+            ->with('totalBilhetes', $totalBilhetes)
+            ->with('totalBilhetesCount', $totalBilhetesCount)
+            ->with('percentagemUsados', $percentagemUsados)
+            ->with('percentagemNaoUsados', $percentagemNaoUsados);
+    }
 }

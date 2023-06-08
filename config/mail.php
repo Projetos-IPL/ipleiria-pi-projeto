@@ -122,4 +122,5 @@ return [
         ],
     ],
 
+    'views' => resource_path('views/emails'),
 ];
