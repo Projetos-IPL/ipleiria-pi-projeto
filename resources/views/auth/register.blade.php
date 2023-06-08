@@ -99,7 +99,7 @@
                             <div class="col-md-6">
                                 <select name="tipo_pagamento" id="tipo_pagamento" class="form-select">
                                     <option value="MBWAY">MBWAY</option>
-                                    <option value="PAYPAL">PayPal</option>
+                                    <option value="PAYPAL" selected>PayPal</option>
                                     <option value="VISA">VISA</option>
                                 </select>
                                 <div class="form-text">Pode sempre alterar mais tarde no seu perfil.</div>
@@ -109,6 +109,23 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3" id="ref_pagamento">
+                            <label for="ref_pagamento" class="col-md-4 col-form-label text-md-end">Referência para
+                                Pagamento</label>
+
+                            <div class="col-md-6">
+                                <input id="ref_pagamento" type="text" class="form-control" name="ref_pagamento"
+                                    maxlength="9" minlength="9" pattern="[0-9]{1,9}">
+
+                                @error('ref_pagamento')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                                <div class="form-text">Pode sempre alterar mais tarde no seu perfil.</div>
                             </div>
                         </div>
 
@@ -123,4 +140,16 @@
         </div>
     </div>
 </div>
+
+<script type="module">
+    $(document).ready(function () {
+        $('#tipo_pagamento').change(function () {
+            if ($(this).val() == 'PAYPAL') {
+                $('#ref_pagamento').hide();
+            } else {
+                $('#ref_pagamento').show();
+            }
+        });
+    });
+</script>
 @endsection

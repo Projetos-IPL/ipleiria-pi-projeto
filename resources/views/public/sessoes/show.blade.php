@@ -7,7 +7,8 @@
     </div>
     <div class="col-lg-8">
         <h1>{{ $filme->titulo }}</h1>
-        <p>{{ $filme->genero->nome }} | {{ $filme->ano }}</p>
+        <p><span class="fw-bold">Género:</span> {{ $filme->genero->nome }} | <span class="fw-bold">Ano:</span> {{
+            $filme->ano }}</p>
 
         @if ($filme->trailer_url != null)
         <button type="button" class="btn btn-dark p-3 my-3" data-bs-toggle="modal" data-bs-target="#trailerModal">
@@ -22,8 +23,10 @@
 <hr class="my-4" />
 
 <div class="row gx-4 gx-lg-5 align-items-center my-5">
-    <h3 class="mb-5">Sessões disponíveis ({{ $filme->sessoes->count() }})</h3>
-    <div class="col">
+    <h2>Sessões</h2>
+    <small>A mostrar {{ $filme->sessoes->count() }} resultados</small>
+
+    <div class="col mt-5">
         <div class="row text-center">
             @foreach($filme->sessoes as $sessao)
             <div class="col-md-3 mb-5">
@@ -34,16 +37,21 @@
                             <h4>{{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}</h4>
                         </div>
                         <div>
-                            @if ($sessao->isFull())
+                            @php
+                            $isFull = $sessao->isFull();
+                            @endphp
+
+                            @if ($isFull)
                             <h5 class="mb-0"><span class="badge text-bg-danger pill">Ocupado</span></h5>
                             @else
                             <h5 class="mb-0"><span class="badge text-bg-success pill">Livre</span></h5>
                             @endif
                         </div>
 
-                        @if (!$sessao->isFull())
+                        @if (!$isFull)
                         <div class="mt-4">
-                            <a href="{{ route('sessoes.buy', $sessao->id) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('sessoes.buy', $sessao->id) }}"
+                                class="btn btn-sm btn-outline-secondary {{ auth()->user()->tipo == 'C' ? '' : 'disabled' }}">
                                 <i class="fa-solid fa-ticket me-2"></i> Comprar Bilhete
                             </a>
                         </div>
@@ -81,4 +89,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#trailerModal').on('hidden.bs.modal', function (e) {
+        $('#trailerModal iframe').attr("src", $("#trailerModal iframe").attr("src"));
+    });
+</script>
 @endsection

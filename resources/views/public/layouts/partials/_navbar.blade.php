@@ -22,12 +22,14 @@
                         Sessões
                     </a>
                 </li>
+                @if (auth()->user()->tipo == 'C')
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('carrinho.showCart') }}">
                         <i class="fas fa-shopping-cart me-1"></i>
                         Carrinho
                     </a>
                 </li>
+                @endif
             </ul>
         </div>
 
@@ -35,7 +37,10 @@
         <div class="dropdown ms-3">
             <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{ Auth::user()->name }}
+                <!-- show user avatar-->
+                <img src="{{ auth()->user()->getAvatarPath() }}" class="rounded-circle me-2" width="24" height="24"
+                    alt="Avatar" />
+                {{ auth()->user()->name }}
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -50,12 +55,23 @@
                     <span class="dropdown-item" href="#">Tipo: {{ auth()->user()->getPrettyTipo() }}</span>
                 </li>
 
+                @if (auth()->user()->tipo == 'F')
+                <hr class="dropdown-divider">
+
+                <li>
+                    <a class="dropdown-item" href="{{ route('sessoes.accessControl') }}">
+                        Controlo de Sessões
+                    </a>
+                </li>
+                @endif
+
                 <li>
                     <hr class="dropdown-divider">
                 </li>
 
                 <li>
-                    <a class="dropdown-item" href="{{ route('utilizadores.publicProfile') }}">Perfil</a>
+                    <a class="dropdown-item"
+                        href="{{ auth()->user()->tipo == 'A' ? route('utilizadores.adminProfile') : route('utilizadores.publicProfile') }}">Perfil</a>
                 </li>
                 <li>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

@@ -76,7 +76,6 @@
                                                     <label for="nif" class="form-label">NIF</label>
                                                     <input type="text" class="form-control" id="nif" name="nif"
                                                         value="{{ $user->cliente->nif ?? '' }}">
-                                                    @dd($user->cliente)
                                                 </div>
                                             </div>
                                             <div class="col">
@@ -104,7 +103,7 @@
                                                         Cartão</label>
                                                     <input type="text" class="form-control" name="ref_pagamento"
                                                         placeholder="1111111111111111"
-                                                        value="{{ auth()->user()->cliente->ref_pagamento }}" required>
+                                                        value="{{ auth()->user()->cliente->ref_pagamento }}">
                                                     <div class="form-text">16 digítos, localizado na frente do
                                                         cartão</div>
                                                 </div>
@@ -114,7 +113,7 @@
                                                         Telemóvel</label>
                                                     <input type="text" class="form-control" name="ref_pagamento"
                                                         placeholder="912345678"
-                                                        value="{{ auth()->user()->cliente->ref_pagamento }}" required>
+                                                        value="{{ auth()->user()->cliente->ref_pagamento }}">
                                                     <div class="form-text">9 digítos, sem indicativo</div>
                                                 </div>
                                                 @else

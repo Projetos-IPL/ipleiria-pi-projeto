@@ -102,7 +102,7 @@
                                 </li>
                             </ul>
 
-                            <div class="mt-4">
+                            <div class="mt-5">
                                 <a href="{{ route('utilizadores.adminProfile') }}" class="btn btn-dark">
                                     Editar perfil
                                 </a>
@@ -138,30 +138,29 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <h2 class="mb-4">Estatística</h2>
-                <div class="col-md-6">
-                    <div class="card">
+                <div class="col-md-4">
+                    <div class="card text-center">
                         <div class="card-header">Bilhetes</div>
 
                         <div class="card-body">
-                            Bilhetes vendidos, filme mais popular ultimos 7, 14 e 30 dias
+                            <div class="mt-2">
+                                <h1 class="display-6">{{ number_format($totalBilhetes, 0, ',', '.') }}</h1>
+                                <h4>Bilhetes vendidos</h4>
+                            </div>
 
-                            <p>{{ $totalRevenueValueBeginning }} - total dos bilhetes até à data</p>
-                            <p>{{ $totalRevenueValueFiveDays }} - total dos bilhetes dos últimos 5 dias</p>
+                            <hr class="my-4">
 
-                            {!! $chart->container() !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Sessões</div>
-
-                        <div class="card-body">
-                            Sessões, sessões por filme (top 3/5), sessões por sala, sessões por dia da semana
+                            <div class="row">
+                                <div class="col">
+                                    <h3>{{ $totalRevenueValueFiveDays }}</h3>
+                                    <p>Últimos 5 dias</p>
+                                </div>
+                                <div class="col">
+                                    <h3>{{ $totalRevenueValueThirtyDays }}</h3>
+                                    <p>Últimos 30 dias</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -169,7 +168,4 @@
         </div>
     </div>
 </div>
-
-<script src="{{ $chart->cdn() }}"></script>
-{!! $chart->script() !!}
 @endsection

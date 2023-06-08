@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 
 class UserController extends Controller
@@ -173,6 +172,8 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
+
+        $user->cliente->delete();
         $user->delete();
 
         return redirect()->route('utilizadores.index')->with('success', 'Utilizador eliminado com sucesso!');

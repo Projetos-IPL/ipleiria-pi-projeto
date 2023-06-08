@@ -182,12 +182,9 @@ class SessaoController extends Controller
         });
 
         $sessoes = $sessoes->unique('filme_id');
+        $generos = Genero::all();
 
-        $generos = $sessoes->map(function ($sessao) {
-            return $sessao->filme->genero;
-        })->unique('code');
-
-        return view('public::sessoes.index', compact('sessoes', 'generos'));
+        return view('public::sessoes.index', compact('sessoes', 'generos'))->with('searchQuery', $request->query('search') ?? '')->with('generoQuery', $request->query('genero') ?? '');
     }
 
     public function showPublic(int $id)
