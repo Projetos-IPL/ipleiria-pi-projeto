@@ -22,7 +22,7 @@
                         Sessões
                     </a>
                 </li>
-                @if (auth()->user()->tipo == 'C')
+                @if (auth()->user()?->tipo == 'C')
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('carrinho.showCart') }}">
                         <i class="fas fa-shopping-cart me-1"></i>
