@@ -77,6 +77,14 @@ class HomeController extends Controller
 
         $totalSalas = Sala::count();
 
+        $totalBilhetesCount = Bilhete::count();
+
+        $bilhetesUsados = Bilhete::where('estado', 'usado')->count();
+        $bilhetesNaoUsados = Bilhete::where('estado', 'não usado')->count();
+
+        $percentagemUsados = ($bilhetesUsados * 100) / $totalBilhetesCount;
+        $percentagemNaoUsados = ($bilhetesNaoUsados * 100) / $totalBilhetesCount;
+
         return view(
             'admin::home',
             compact(
@@ -95,7 +103,9 @@ class HomeController extends Controller
                 'totalBilhetes',
                 'mostFrequentSalaData',
                 'leastFrequentSalaData',
-                'totalSalas'
+                'totalSalas',
+                'percentagemUsados',
+                'percentagemNaoUsados'
             )
         );
     }

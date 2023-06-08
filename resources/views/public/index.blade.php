@@ -29,10 +29,12 @@
                 <div class="h-100 d-flex justify-content-center align-items-center">
                     <figure>
                         <blockquote class="blockquote">
-                            <p>Melhor experiência de cinema dos últimos tempos.</p>
+                            <p>
+                                "O CineMagic é simplesmente mágico!"
+                            </p>
                         </blockquote>
                         <figcaption class="blockquote-footer">
-                            João, <cite>cliente da CineMagic.</cite>
+                            Nuno, <cite>cliente da CineMagic.</cite>
                         </figcaption>
                     </figure>
                 </div>

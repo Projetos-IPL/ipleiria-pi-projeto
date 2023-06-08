@@ -20,6 +20,11 @@
                                     </option>
                                     @endforeach
                                 </select>
+
+                                <div class="form-text">
+                                    Apenas são apresentadas as sessões de hoje
+                                    ({{ \Carbon\Carbon::parse(now())->format('d/m/Y') }})
+                                </div>
                             </div>
                             <div class="col">
                                 <h5 class="mb-4">Estatística</h5>

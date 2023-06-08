@@ -141,34 +141,6 @@
 
                 <div class="col-md-4">
                     <div class="card text-center">
-                        <div class="card-header">Bilhetes</div>
-
-                        <div class="card-body">
-                            <div class="mt-2">
-                                <h1 class="display-6">{{ number_format($totalBilhetes, 0, ',', '.') }}</h1>
-                                <h4>Bilhetes vendidos</h4>
-                            </div>
-
-                            <hr class="my-4">
-
-                            <div class="row">
-                                <div class="col">
-                                    <h3>{{ number_format($totalRevenueValueFiveDays, 2, ',', '.') }} €</h3>
-                                    <p>Últimos 5 dias</p>
-                                </div>
-                                <div class="col">
-                                    <h3>{{ number_format($totalRevenueValueThirtyDays, 2, ',', '.') }} €</h3>
-                                    <p>Últimos 30 dias</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-4 mt-4">
-                    <div class="card text-center">
                         <div class="card-header">Salas</div>
 
                         <div class="card-body">
@@ -192,6 +164,53 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4 mt-4">
+                    <div class="card text-center">
+                        <div class="card-header">Bilhetes</div>
+
+                        <div class="card-body">
+                            <div class="mt-2">
+                                <h1 class="display-6">{{ number_format($totalBilhetes, 0, ',', '.') }}</h1>
+                                <h4>Bilhetes vendidos</h4>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col">
+                                    <h3>{{ number_format($totalRevenueValueFiveDays, 2, ',', '.') }} €</h3>
+                                    <p>Últimos 5 dias</p>
+                                </div>
+                                <div class="col">
+                                    <h3>{{ number_format($totalRevenueValueThirtyDays, 2, ',', '.') }} €</h3>
+                                    <p>Últimos 30 dias</p>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="progress mb-3" style="height: 25px; font-size: 1.05em;">
+                                        <div class="progress-bar bg-success"
+                                            style="width: {{ number_format($percentagemUsados, 2) }}%;">
+                                            {{ number_format($percentagemUsados, 0) }}%
+                                        </div>
+                                        <div class="progress-bar bg-danger"
+                                            style="width: {{ number_format($percentagemNaoUsados, 2) }}%">
+                                            {{ number_format($percentagemNaoUsados, 0) }}%
+                                        </div>
+                                    </div>
+                                    <p>Usados vs. Não Usados</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

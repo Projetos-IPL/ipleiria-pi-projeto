@@ -49,9 +49,18 @@
                         </div>
 
                         @if (!$isFull)
+
+                        @php
+                        if (Auth::check()) {
+                        $isAvailable = auth()->user()->tipo == 'C';
+                        } else {
+                        $isAvailable = true;
+                        }
+                        @endphp
+
                         <div class="mt-4">
                             <a href="{{ route('sessoes.buy', $sessao->id) }}"
-                                class="btn btn-sm btn-outline-secondary {{ auth()->user()->tipo == 'C' ? '' : 'disabled' }}">
+                                class="btn btn-sm btn-outline-secondary {{$isAvailable ? '' : 'disabled' }}">
                                 <i class="fa-solid fa-ticket me-2"></i> Comprar Bilhete
                             </a>
                         </div>

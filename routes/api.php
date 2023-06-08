@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/filmes/{id}/cartaz', [ApiController::class, 'getMoviePoster'])->name('api.filmes.cartaz');
 Route::get('/sessoes/{id}', [ApiController::class, 'getSessaoData'])->name('api.sessoes.data');
-Route::get('/sessoes/{id}/bilhete/{bilhete_id}', [ApiController::class, 'ApiController@getSessaoBilheteData'])->name('api.sessoes.bilhete');
+Route::get('/sessoes/{id}/bilhete/{bilhete_id}', [ApiController::class, 'getSessaoBilheteData'])->name('api.sessoes.bilhete');
