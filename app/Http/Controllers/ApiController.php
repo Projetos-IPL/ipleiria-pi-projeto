@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Filme;
 use App\Models\Sessao;
 use App\Models\Bilhete;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class ApiController extends Controller
@@ -29,17 +30,17 @@ class ApiController extends Controller
         ]);
     }
 
-    public function getSessaoBilheteData(int $sessao_id, int $bilhete_id)
+    public function getSessaoBilheteData(int $sessao_id, int $bilhete_id): JsonResponse
     {
         $sessao = Sessao::findOrFail($sessao_id);
         $bilhete = Bilhete::findOrFail($bilhete_id);
 
-        // check if bilhete is allowed for this sessao
         if ($bilhete->sessao_id !== $sessao->id) {
             return response()->json([
                 'permitido' => false,
                 'dados' => [
-                    'nome' => $bilhete->cliente->user->name,
+                    'nome' => $bilhete->cliente?->user?->name,
+                    'foto' => $bilhete->cliente?->user?->getAvatarPath(),
                     'estado' => $bilhete->estado,
                 ]
             ]);
@@ -48,21 +49,43 @@ class ApiController extends Controller
                 return response()->json([
                     'permitido' => false,
                     'dados' => [
-                        'nome' => $bilhete->cliente->user->name,
+                        'nome' => $bilhete->cliente?->user?->name,
+                        'foto' => $bilhete->cliente?->user?->getAvatarPath(),
                         'estado' => $bilhete->estado,
                     ]
                 ]);
             }
 
+            return response()->json([
+                'permitido' => true,
+                'dados' => [
+                    'nome' => $bilhete->cliente?->user?->name,
+                    'foto' => $bilhete->cliente?->user?->getAvatarPath(),
+                    'estado' => $bilhete->estado,
+                ]
+            ]);
+        }
+    }
+
+    public function setBilheteStatus(Request $request, int $id, int $bilhete_id): JsonResponse
+    {
+        $bilhete = Bilhete::findOrFail($bilhete_id);
+
+        if ($request->estado == "1") {
             $bilhete->estado = 'usado';
             $bilhete->save();
 
             return response()->json([
+                'estado' => $bilhete->estado,
                 'permitido' => true,
-                'dados' => [
-                    'nome' => $bilhete->cliente->user->name,
-                    'estado' => $bilhete->estado,
-                ]
+            ]);
+        } else if ($request->estado == "0") {
+            $bilhete->estado = 'não usado';
+            $bilhete->save();
+
+            return response()->json([
+                'estado' => $bilhete->estado,
+                'permitido' => false,
             ]);
         }
     }

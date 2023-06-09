@@ -3,7 +3,7 @@
 @section('content')
 <div class="row gx-4 gx-lg-5 align-items-center my-5">
     <div class="col-lg-4">
-        <img src="{{ $filme->getCartazPath() }}" alt="{{ $filme->titulo }}" class="img-fluid rounded">
+        <img src="{{ $filme->getCartazPath() }}" alt="{{ $filme->titulo }}" class="img-fluid rounded shadow">
     </div>
     <div class="col-lg-8">
         <h1>{{ $filme->titulo }}</h1>

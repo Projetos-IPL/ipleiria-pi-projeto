@@ -267,8 +267,22 @@ class SessaoController extends Controller
 
     public function accessControl(Request $request)
     {
-        $sessoes = Sessao::with('filme')->whereDate('data', '=', date('Y-m-d'))->get();
+        $dataQuery = $request->query('data');
 
-        return view('admin::sessoes.access-control', compact('sessoes'));
+        $datas = Sessao::with('filme', 'sala')
+            ->whereDate('data', '>=', Carbon::now()->toDateString())
+            ->whereDate('data', '<=', Carbon::now()->endOfWeek()->toDateString())
+            ->distinct()
+            ->pluck('data');
+
+        if ($request->query('data')) {
+            $sessoes = Sessao::with('filme', 'sala')->whereDate('data', '=', $dataQuery)->get();
+        } else {
+            $sessoes = Sessao::with('filme', 'sala')->whereDate('data', '>=', Carbon::now()->toDateString())
+                ->whereDate('data', '<=', Carbon::now()->endOfWeek()->toDateString())
+                ->get();
+        }
+
+        return view('admin::sessoes.access-control', compact('sessoes', 'datas'))->with('dataQuery', $dataQuery ?? '');
     }
 }
