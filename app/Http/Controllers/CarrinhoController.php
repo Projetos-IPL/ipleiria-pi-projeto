@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\SendBilheteEmail;
 use App\Models\Lugar;
 use App\Models\Bilhete;
 use App\Services\Payment;
 use App\Models\Configuracao;
 use Illuminate\Http\Request;
+use App\Mail\SendReciboEmail;
+use App\Mail\SendBilheteEmail;
 use Illuminate\Support\Facades\Mail;
 
 class CarrinhoController extends Controller
@@ -147,8 +148,6 @@ class CarrinhoController extends Controller
             'recibo_pdf_url' => '#'
         ]);
 
-        // TODO enviar recibo
-
         $precoBilhete = Configuracao::first()->preco_bilhete_sem_iva;
         $bilhetes = [];
 
@@ -170,6 +169,10 @@ class CarrinhoController extends Controller
         }
 
         Mail::to($user->email)->send(new SendBilheteEmail($bilhetes));
+
+        ReciboController::createPDF($recibo->id);
+
+        Mail::to($user->email)->send(new SendReciboEmail($recibo->id));
 
         session()->forget('cart');
 

@@ -7,11 +7,12 @@ use App\Http\Controllers\SalaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\GeneroController;
+use App\Http\Controllers\ReciboController;
 use App\Http\Controllers\SessaoController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\CarrinhoController;
-use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Controllers\PublicSiteController;
+use App\Http\Controllers\ConfiguracaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::prefix('/')->group(function () {
     Route::get('/', [PublicSiteController::class, 'index'])->name('index');
 
     Route::get('bilhete/{id}/pdf', [BilheteController::class, 'showPDF'])->name('bilhetes.showPDF');
+    Route::get('recibo/{id}/pdf', [ReciboController::class, 'showPDF'])->middleware(['auth', 'verified'])->name('recibos.showPDF');
 
     Route::get('filmes', [SessaoController::class, 'indexPublic'])->name('sessoes.indexPublic');
     Route::get('filme/{id}', [SessaoController::class, 'showPublic'])->name('sessoes.showPublic');

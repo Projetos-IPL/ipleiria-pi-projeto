@@ -28,4 +28,9 @@ class Recibo extends Model
     {
         return $this->belongsTo(Cliente::class, 'cliente_id', 'id');
     }
+
+    public function bilhetes()
+    {
+        return $this->hasMany(Bilhete::class, 'recibo_id', 'id');
+    }
 }

@@ -101,14 +101,16 @@
                         </td>
                         <td>{{ $bilhete->sessao->sala->nome }}</td>
                         <td>{{ $bilhete->lugar->getPrettyLugar() }}</td>
-                        <td>{{ $bilhete->preco_sem_iva }} €</td>
+                        <td>{{ number_format($bilhete->preco_sem_iva * (1 + $percentagemIva / 100), 2, ',', '.') }} €
+                        </td>
                         <td>{{ $bilhete->getPrettyEstado() }}</td>
                         <td>
                             <a href="{{ route('bilhetes.showPDF', $bilhete->id) }}" class="btn btn-sm btn-dark me-1">
                                 <i class="fa-solid fa-file-pdf me-2 fa-lg"></i>
                                 Bilhete
                             </a>
-                            <a href="{{ $bilhete->recibo->recibo_pdf_url }}" class="btn btn-sm btn-secondary">
+                            <a href="{{ route('recibos.showPDF', $bilhete->recibo->id) }}"
+                                class="btn btn-sm btn-secondary">
                                 <i class="fa-solid fa-file-pdf me-2 fa-lg"></i>
                                 Recibo
                             </a>
