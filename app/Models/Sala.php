@@ -31,4 +31,9 @@ class Sala extends Model
     {
         return $this->hasMany(Lugar::class);
     }
+
+    public function sessoes()
+    {
+        return $this->hasMany(Sessao::class);
+    }
 }

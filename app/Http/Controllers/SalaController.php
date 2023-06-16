@@ -120,6 +120,11 @@ class SalaController extends Controller
     public function destroy(int $id)
     {
         $sala = Sala::query()->findOrFail($id);
+
+        if ($sala->sessoes->count() > 0) {
+            return redirect()->back()->with('error', 'Não é possível remover sala se tiver sessões associadas!');
+        }
+
         $sala->delete();
 
         Lugar::query()->where('sala_id', $id)->delete();

@@ -101,7 +101,7 @@
                                         style="max-width: 75px">
                                     {{ $sessao->filme->titulo }}
                                 </td>
-                                <td>{{ $sessao->sala->nome }}</td>
+                                <td>{{ $sessao->sala?->nome }}</td>
                                 <td>
                                     {{ \Carbon\Carbon::parse($sessao->data)->format('d M Y') }},
                                     {{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}

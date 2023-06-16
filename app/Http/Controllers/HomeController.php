@@ -72,7 +72,7 @@ class HomeController extends Controller
             ->first();
 
         $leastFrequentSalaData = [
-            "nome" => Sala::find($leastFrequentSala->sala_id)->nome
+            "nome" => "nome"
         ];
 
         $totalSalas = Sala::count();
