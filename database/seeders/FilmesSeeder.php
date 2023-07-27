@@ -29,15 +29,7 @@ class FilmesSeeder extends Seeder
         }
         
         $this->command->info("Gravar todos os filmes em bloco na base de dados");
-
-        $movieCollection = collect($movies);
-        $movieCollection->chunk(1000, function($m)
-        {
-            foreach ($m as $movie)
-            {
-                DB::table('filmes')->insert($movie);
-            }
-        });
+        DB::table('filmes')->insert($movies);
         
         // A partir daqui, vamos copiar as imagens dos cartazes
         $this->command->info("Copiar imagens das estampas");
